@@ -17,7 +17,6 @@ function love.draw()
     player:drawPlayer()
 end
 
-
 function love.keypressed(key, scancode, isrepeat)
     if key == "escape" then
        love.event.quit()

@@ -22,12 +22,14 @@ do
     end
 
     function Player:loadPlayer()
-    
+        originalSpeed = self.speed
     end
 
     function Player:updatePlayer(dt)
         local x, y = 0, 0
-        
+        slowSpeed = originalSpeed / 2
+        shiftKeyPressed = false
+
         if love.keyboard.isDown("d") then
             x = 1
         elseif love.keyboard.isDown("a") then
@@ -40,7 +42,18 @@ do
             y = 1
         end
 
-        
+        if love.keyboard.isDown("lshift") then
+            shiftKeyPressed = true
+        else
+            shiftKeyPressed = false
+        end
+
+        if shiftKeyPressed == true then
+            self.speed = slowSpeed
+        else
+            self.speed = originalSpeed
+        end
+
         local vector = Vector2.new(x,y)
 
         vector = vector:unit() * self.speed * dt

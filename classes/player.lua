@@ -56,7 +56,7 @@ do
 
         local vector = Vector2.new(x,y)
 
-        vector = vector:unit() * self.speed * dt
+        vector = vector:unit():mul(self.speed * dt)
 
         self.Xpos = self.Xpos + vector.x
         self.Ypos = self.Ypos + vector.y

@@ -51,50 +51,34 @@ do
 
     function Vector2:div(n)
         if Vector2.is(n) then
-            self.x = self.x / n.x
-            self.y = self.y / n.y
+            return Vector2.new(self.x / n.x, self.y / n.y)
         else
-            self.x = self.x / n
-            self.y = self.y / n
+            return Vector2.new(self.x / n, self.y / n)
         end
-        
-        return self
     end
 
     function Vector2:mul(n)
         if Vector2.is(n) then
-            self.x = self.x * n.x
-            self.y = self.y * n.y
+            return Vector2.new(self.x * n.x, self.y * n.y)
         else
-            self.x = self.x * n
-            self.y = self.y * n
+            return Vector2.new(self.x * n, self.y * n)
         end
-
-        return self
     end
 
     function Vector2:add(n)
         if Vector2.is(n) then
-            self.x = self.x + n.x
-            self.y = self.y + n.y
+            return Vector2.new(self.x + n.x, self.y + n.y)
         else
-            self.x = self.x + n
-            self.y = self.y + n
+            return Vector2.new(self.x + n, self.y + n)
         end
-
-        return self
     end
 
     function Vector2:sub(n)
         if Vector2.is(n) then
-            self.x = self.x - n.x
-            self.y = self.y - n.y
+            return Vector2.new(self.x - n.x, self.y - n.y)
         else
-            self.x = self.x - n
-            self.y = self.y - n
+            return Vector2.new(self.x - n, self.y - n)
         end
-        
-        return self
     end
 
     function Vector2.magnitude(vector)
@@ -106,36 +90,17 @@ do
     end
 
     function Vector2.angle(from, to)
-        return math.acos(clamp(Vector2.dot(from:unit(), to:unit()), -1, 1))    * 57.29578
+        return math.acos(clamp(from:unit():dot(to:unit()), -1, 1)) * 57.29578
     end
 
     function Vector2.is(v)
-        return type(v) == "table" and tostring(v) == "Vector2"
+        return type(v) == "table" or tostring(v) == "Vector2"
     end
 
     Vector2.up = Vector2.new(0, 1)
     Vector2.right = Vector2.new(1, 0)
     Vector2.zero = Vector2.new(0, 0)
     Vector2.one = Vector2.new(1, 1)
-
-    function Vector2.__div(a, b)
-        return a:clone():div(b)
-    end
-    function Vector2.__mul(a, b)
-        return a:clone():mul(b)
-    end
-    function Vector2.__add(a, b)
-        return a:clone():add(b)
-    end
-    function Vector2.__sub(a, b)
-        return a:clone():sub(b)
-    end
-    function Vector2.__unm(v)
-        return Vector2.new(-v.x, -v.y)
-    end
-    function Vector2.__eq(a, b)
-        return a.x == b.x and a.y == b.y
-    end
 end
 
 return Vector2

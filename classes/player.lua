@@ -15,10 +15,11 @@ do
         return self:constructor(...) or self
     end
     
-    function Player:constructor(size, speed, Xpos, Ypos)
+    function Player:constructor(size, speed, Xpos, Ypos,health)
         self.size = size
         self.speed = speed
         self.Xpos, self.Ypos = Xpos, Ypos
+        self.health = health
     end
 
     function Player:loadPlayer()
@@ -65,6 +66,10 @@ do
     function Player:drawPlayer()
         local halfSize = self.size / 2
         love.graphics.rectangle("fill", self.Xpos - halfSize, self.Ypos - halfSize, self.size, self.size)
+    end
+
+    function Player:drawHealth()
+        love.graphics.print("Health: ".. self.health,0,0)
     end
 end
 

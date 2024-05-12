@@ -27,16 +27,23 @@ do
         end
     end
 
+    function Projectile.detectCollision() -- FINISH
+        for _, obj in ipairs(projectiles) do
+            
+        end
+    end
+
     function Projectile.new(...)
         local self = setmetatable({}, Projectile)
         return self:constructor(...) or self
     end
     
-    function Projectile:constructor(origin, angle, speed)
+    function Projectile:constructor(origin, angle, speed, isFriendly)
         self.position = origin
         self.origin = origin
         self.angle = Vector2.new(math.sin(math.rad(angle)), math.cos(math.rad(angle)))
         self.speed = speed
+        self.isFriendly = isFriendly
         self.t = love.timer.getTime()
 
         table.insert(projectiles, self)

@@ -17,7 +17,7 @@ function love.update(deltaTime)
     t = t + deltaTime
 
     if t > 0.2 and love.keyboard.isDown("space") then
-        projectileClass.new(Vector2.new(player.Xpos, player.Ypos), math.random(175,185), 500, false, 10)
+        projectileClass.new(Vector2.new(player.Xpos, player.Ypos), math.random(175,185), 500, true, 10)
         t = 0
     end
 end

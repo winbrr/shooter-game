@@ -13,10 +13,11 @@ end
 function love.update(deltaTime)
     player:updatePlayer(deltaTime)
     projectileClass.update()
+    projectileClass.detectCollision(player)
     t = t + deltaTime
 
     if t > 0.2 and love.keyboard.isDown("space") then
-        projectileClass.new(Vector2.new(player.Xpos, player.Ypos), math.random(175,185), 500, true)
+        projectileClass.new(Vector2.new(player.Xpos, player.Ypos), math.random(175,185), 500, false, 10)
         t = 0
     end
 end

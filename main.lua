@@ -1,31 +1,23 @@
+-- classes
+local Vector2 = require("classes/vector2")
 local playerClass = require("classes/player")
 local projectileClass = require("classes/projectile")
-local Vector2 = require("classes/vector2")
+local weaponClass = require("classes/weapon")
 
-local windowWidth, windowHeight = love.graphics.getDimensions()
 local t = 0
-local player = playerClass.new(50, 400,  windowWidth / 2, windowHeight / 2,3)
-
-function love.load()
-    player:loadPlayer()
-end
+local windowWidth, windowHeight = love.graphics.getDimensions()
+local player = playerClass.new(50, 400,  windowWidth / 2, windowHeight / 2)
+local defaultWeapon = weaponClass.new(0.2, 10, 1, player, projectileClass)
 
 function love.update(deltaTime)
-    player:updatePlayer(deltaTime)
-    projectileClass.update()
-    projectileClass.detectCollision(player)
     t = t + deltaTime
-
-    if t > 0.2 and love.keyboard.isDown("space") then
-        projectileClass.new(Vector2.new(player.Xpos, player.Ypos), math.random(175,185), 500, true, 10)
-        t = 0
-    end
+    
+    player:updatePlayer(deltaTime)
+    defaultWeapon:shoot(t)
 end
 
 function love.draw()
     player:drawPlayer()
-    projectileClass.draw()
-    player:drawHealth()
 end
 
 function love.keypressed(key, scancode, isrepeat)

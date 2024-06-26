@@ -1,23 +1,23 @@
 -- classes
-local Vector2 = require("classes/vector2")
+Vector2 = require("classes/vector2")
 local playerClass = require("classes/player")
-local projectileClass = require("classes/projectile")
+projectileClass = require("classes/projectile")
 local weaponClass = require("classes/weapon")
+local cameraClass = require("classes/camera")
 
-local t = 0
 local windowWidth, windowHeight = love.graphics.getDimensions()
-local player = playerClass.new(50, 400,  windowWidth / 2, windowHeight / 2)
-local defaultWeapon = weaponClass.new(0.2, 10, 1, player, projectileClass)
+player = playerClass.new(50, 400,  windowWidth / 2, windowHeight / 2)
+local defaultWeapon = weaponClass.new(0.2, 10, 1, 500)
+local inventory = {defaultWeapon}
+local camera = cameraClass.new()
 
 function love.update(deltaTime)
-    t = t + deltaTime
-    
-    player:updatePlayer(deltaTime)
-    defaultWeapon:shoot(t)
+    weaponClass.update(deltaTime, inventory)
+    camera:update(deltaTime)
 end
 
 function love.draw()
-    player:drawPlayer()
+    camera:draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)

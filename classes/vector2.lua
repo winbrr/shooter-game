@@ -40,13 +40,14 @@ do
         if magnitude == 1 then
             return vector
         elseif magnitude > 1e-05 then
-            vector:div(magnitude)
+            return vector:div(magnitude)
         else
             vector.x = 0
             vector.y = 0
         end
 
         return vector
+
     end
 
     function Vector2:div(n)
@@ -91,6 +92,10 @@ do
 
     function Vector2.angle(from, to)
         return math.acos(clamp(from:unit():dot(to:unit()), -1, 1)) * 57.29578
+    end
+
+    function Vector2.angleRad(from, to)
+        return math.acos(clamp(from:unit():dot(to:unit()), -1, 1))
     end
 
     function Vector2.is(v)

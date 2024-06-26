@@ -1,5 +1,3 @@
-local Vector2 = require("classes/vector2")
-
 local Projectile
 do
     Projectile = setmetatable({}, {
@@ -11,18 +9,22 @@ do
     
     local projectiles = {}
 
-    function Projectile.update()
+    function Projectile.update(deltaTime)
         local t = love.timer.getTime()
         for _, obj in ipairs(projectiles) do
-            obj.position = obj.origin:add(obj.angle:mul(obj.speed * (t - obj.t)))
-            
+            -- obj.position = obj.origin:add(obj.angle:mul(obj.speed * (t - obj.t)))
+            -- obj.position = obj.position:add(obj.velocity:mul(deltaTime))
+
+            obj.position = obj.origin:add(obj.direction:mul(obj.speed * (t - obj.t)))
         end
     end
 
     function Projectile.draw()
-        for _, obj in ipairs(projectiles) do
+        -- love.graphics.print(#projectiles, 8, 8)
+        for i, obj in ipairs(projectiles) do
             local halfSize = obj.size / 2
             love.graphics.circle("fill", obj.position.x - halfSize, obj.position.y - halfSize, obj.size)
+            -- love.graphics.print(string.format("x: %s, y: %s, m: %s", obj.direction.x, obj.direction.y, obj.direction:magnitude()),8, 16 + (12*i))
         end
     end
 
@@ -43,10 +45,10 @@ do
         return self:constructor(...) or self
     end
     
-    function Projectile:constructor(origin, angle, speed, isFriendly,size)
+    function Projectile:constructor(origin, direction, speed, isFriendly, size)
         self.position = origin
         self.origin = origin
-        self.angle = Vector2.new(math.sin(math.rad(angle)), math.cos(math.rad(angle)))
+        self.direction = direction
         self.speed = speed
         self.isFriendly = isFriendly
         self.t = love.timer.getTime()

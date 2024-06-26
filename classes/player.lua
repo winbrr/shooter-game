@@ -1,5 +1,3 @@
-local Vector2 = require("classes/vector2")
-
 
 local Player
 do
@@ -23,13 +21,11 @@ do
     end
 
     function Player:loadPlayer()
-        originalSpeed = self.speed
+
     end
 
-    function Player:updatePlayer(dt)
+    function Player:update(deltaTime)
         local x, y = 0, 0
-        slowSpeed = originalSpeed / 2
-        shiftKeyPressed = false
 
         if love.keyboard.isDown("d") then
             x = 1
@@ -43,27 +39,15 @@ do
             y = 1
         end
 
-        if love.keyboard.isDown("lshift") then
-            shiftKeyPressed = true
-        else
-            shiftKeyPressed = false
-        end
-
-        if shiftKeyPressed == true then
-            self.speed = slowSpeed
-        else
-            self.speed = originalSpeed
-        end
-
         local vector = Vector2.new(x,y)
 
-        vector = vector:unit():mul(self.speed * dt)
+        vector = vector:unit():mul(self.speed * deltaTime)
 
         self.Xpos = self.Xpos + vector.x
         self.Ypos = self.Ypos + vector.y
     end
 
-    function Player:drawPlayer()
+    function Player:draw()
         local halfSize = self.size / 2
         love.graphics.rectangle("fill", self.Xpos - halfSize, self.Ypos - halfSize, self.size, self.size)
     end

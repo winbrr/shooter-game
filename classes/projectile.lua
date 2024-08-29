@@ -9,6 +9,23 @@ do
     
     local projectiles = {}
 
+    function Projectile.new(...)
+        local self = setmetatable({}, Projectile)
+        return self:constructor(...) or self
+    end
+    
+    function Projectile:constructor(origin, direction, speed, isFriendly, size)
+        self.position = origin
+        self.origin = origin
+        self.direction = direction
+        self.speed = speed
+        self.isFriendly = isFriendly
+        self.t = love.timer.getTime()
+        self.size = size
+
+        table.insert(projectiles, self)
+    end
+
     function Projectile.update(deltaTime)
         local t = love.timer.getTime()
         for _, obj in ipairs(projectiles) do
@@ -34,24 +51,6 @@ do
             end
         end
     end
-
-    function Projectile.new(...)
-        local self = setmetatable({}, Projectile)
-        return self:constructor(...) or self
-    end
-    
-    function Projectile:constructor(origin, direction, speed, isFriendly, size)
-        self.position = origin
-        self.origin = origin
-        self.direction = direction
-        self.speed = speed
-        self.isFriendly = isFriendly
-        self.t = love.timer.getTime()
-        self.size = size
-
-        table.insert(projectiles, self)
-    end
-
 end
 
 return Projectile

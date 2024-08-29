@@ -12,19 +12,14 @@ do
     function Projectile.update(deltaTime)
         local t = love.timer.getTime()
         for _, obj in ipairs(projectiles) do
-            -- obj.position = obj.origin:add(obj.angle:mul(obj.speed * (t - obj.t)))
-            -- obj.position = obj.position:add(obj.velocity:mul(deltaTime))
-
             obj.position = obj.origin:add(obj.direction:mul(obj.speed * (t - obj.t)))
         end
     end
 
     function Projectile.draw()
-        -- love.graphics.print(#projectiles, 8, 8)
         for i, obj in ipairs(projectiles) do
             local halfSize = obj.size / 2
             love.graphics.circle("fill", obj.position.x - halfSize, obj.position.y - halfSize, obj.size)
-            -- love.graphics.print(string.format("x: %s, y: %s, m: %s", obj.direction.x, obj.direction.y, obj.direction:magnitude()),8, 16 + (12*i))
         end
     end
 

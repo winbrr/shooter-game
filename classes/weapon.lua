@@ -1,4 +1,3 @@
-local Projectile = require("classes/projectile")
 local Player = require("classes/player")
 
 local Weapon

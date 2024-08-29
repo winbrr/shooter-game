@@ -14,11 +14,11 @@ do
         return self:constructor(...) or self
     end
     
-    function Weapon:constructor(fireRate, magSize, reloadSpeed, bulletSpeed)
+    function Weapon:constructor(fireRate, magSize, reloadSpeed, projectileSpeed)
         self.fireRate = fireRate
         self.magSize = magSize
         self.reloadSpeed = reloadSpeed
-        self.bulletSpeed = bulletSpeed
+        self.projectileSpeed = projectileSpeed
     end
 
     local t = 0
@@ -27,7 +27,7 @@ do
         t = t + deltaTime
         for i, obj in ipairs(inventory) do
             if t > obj.fireRate and love.keyboard.isDown("space") then
-                projectileClass.new(Vector2.new(player.Xpos, player.Ypos), Weapon.getProjectileAngle(), obj.bulletSpeed, true, 10)
+                projectileClass.new(Vector2.new(player.Xpos, player.Ypos), Weapon.getProjectileAngle(), obj.projectileSpeed, true, 10)
                 t = 0
             end
         end

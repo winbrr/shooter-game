@@ -9,6 +9,18 @@ do
     })
     Weapon.__index = Weapon
     
+    function Weapon.new(...)
+        local self = setmetatable({}, Weapon)
+        return self:constructor(...) or self
+    end
+    
+    function Weapon:constructor(fireRate, magSize, reloadSpeed, bulletSpeed)
+        self.fireRate = fireRate
+        self.magSize = magSize
+        self.reloadSpeed = reloadSpeed
+        self.bulletSpeed = bulletSpeed
+    end
+
     local t = 0
 
     function Weapon.update(deltaTime, inventory)
@@ -26,18 +38,6 @@ do
         local plrPos = Vector2.new(player.Xpos, player.Ypos)
         return mousePos:sub(plrPos):unit()
     end                         
-
-    function Weapon.new(...)
-        local self = setmetatable({}, Weapon)
-        return self:constructor(...) or self
-    end
-    
-    function Weapon:constructor(fireRate, magSize, reloadSpeed, bulletSpeed)
-        self.fireRate = fireRate
-        self.magSize = magSize
-        self.reloadSpeed = reloadSpeed
-        self.bulletSpeed = bulletSpeed
-    end
 end
 
 return Weapon

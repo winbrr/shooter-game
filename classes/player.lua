@@ -49,7 +49,9 @@ do
 
     function Player:draw()
         local halfSize = self.size / 2
-        love.graphics.rectangle("fill", self.Xpos - halfSize, self.Ypos - halfSize, self.size, self.size)
+        local Xdif = player.Xpos - camera.Xpos
+        local Ydif = player.Ypos - camera.Ypos
+        love.graphics.rectangle("fill", Xdif + (windowWidth / 2) - halfSize, Ydif + (windowHeight / 2) - halfSize, self.size, self.size)
     end
 
     function Player:drawHealth()

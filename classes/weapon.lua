@@ -35,7 +35,7 @@ do
 
     function Weapon.getProjectileAngle()
         local mousePos = Vector2.new(love.mouse.getPosition())
-        local plrPos = Vector2.new(player.Xpos, player.Ypos)
+        local plrPos = Vector2.new(windowWidth / 2, windowHeight / 2)
         return mousePos:sub(plrPos):unit()
     end                         
 end

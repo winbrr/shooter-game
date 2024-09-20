@@ -28,15 +28,15 @@ do
         local x, y = 0, 0
 
         if love.keyboard.isDown("d") then
-            x = 1
+            x = -1
         elseif love.keyboard.isDown("a") then
-            x = -1 
+            x = 1 
         end
 
         if love.keyboard.isDown("w") then
-            y = -1
-        elseif love.keyboard.isDown("s") then
             y = 1
+        elseif love.keyboard.isDown("s") then
+            y = -1
         end
 
         local vector = Vector2.new(x,y)
@@ -51,7 +51,7 @@ do
         local halfSize = self.size / 2
         local Xdif = player.Xpos - camera.Xpos
         local Ydif = player.Ypos - camera.Ypos
-        love.graphics.rectangle("fill", Xdif + (windowWidth / 2) - halfSize, Ydif + (windowHeight / 2) - halfSize, self.size, self.size)
+        love.graphics.rectangle("fill", -Xdif + (windowWidth / 2) - halfSize, -Ydif + (windowHeight / 2) - halfSize, self.size, self.size)
     end
 
     function Player:drawHealth()

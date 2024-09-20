@@ -7,8 +7,8 @@ local weaponClass = require("classes/weapon")
 local cameraClass = require("classes/camera")
 
 windowWidth, windowHeight = love.graphics.getDimensions()
-player = playerClass.new(50, 400,  windowWidth / 2, windowHeight / 2)
-local defaultWeapon = weaponClass.new(0.2, 10, 1, 500)
+player = playerClass.new(50, 600,  windowWidth / 2, windowHeight / 2)
+local defaultWeapon = weaponClass.new(0.2, 10, 1, 800)
 local inventory = {defaultWeapon}
 camera = cameraClass.new()
 

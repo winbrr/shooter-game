@@ -27,7 +27,9 @@ do
         t = t + deltaTime
         for i, obj in ipairs(inventory) do
             if t > obj.fireRate and love.keyboard.isDown("space") then
-                projectileClass.new(Vector2.new(player.Xpos, player.Ypos), Weapon.getProjectileAngle(), obj.projectileSpeed, true, 10)
+                local Xdif = player.Xpos - camera.Xpos
+                local Ydif = player.Ypos - camera.Ypos
+                projectileClass.new(Vector2.new(camera.Xpos - Xdif, camera.Ypos - Ydif), Weapon.getProjectileAngle(), obj.projectileSpeed, true, 10)
                 t = 0
             end
         end

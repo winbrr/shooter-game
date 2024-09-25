@@ -13,8 +13,14 @@ local inventory = {defaultWeapon}
 camera = cameraClass.new()
 
 local function drawReference()
+    local rx, ry = camera:toScreen(0,0)
     love.graphics.setColor(1, 0, 0)
-    love.graphics.circle("fill", camera.Xpos, camera.Ypos, 3)
+    love.graphics.circle("fill", rx, ry, 3)
+    love.graphics.setColor(1, 1, 1)
+
+    love.graphics.setColor(0, 1, 0)
+    local Rx, Ry =  camera:toScreen(camera:toWorld(64, 64))
+    love.graphics.circle("fill", Rx, Ry, 3)
     love.graphics.setColor(1, 1, 1)
   end
 

@@ -29,5 +29,14 @@ do
         player:draw()
         projectileClass.draw()
     end
+
+    function Camera:toWorld(x,y)
+        local wx, wy = x - (windowWidth / 2) - self.Xpos, y - (windowHeight / 2) - self.Ypos
+        return self.Xpos - x, self.Ypos - y
+    end
+
+    function Camera:toScreen(x,y)
+        return self.Xpos - x, self.Ypos - y
+    end
 end
 return Camera

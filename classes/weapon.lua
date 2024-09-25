@@ -27,9 +27,7 @@ do
         t = t + deltaTime
         for i, obj in ipairs(inventory) do
             if t > obj.fireRate and love.keyboard.isDown("space") then
-                local Xdif = player.Xpos - camera.Xpos
-                local Ydif = player.Ypos - camera.Ypos
-                projectileClass.new(Vector2.new(camera.Xpos - Xdif, camera.Ypos - Ydif), Weapon.getProjectileAngle(), obj.projectileSpeed, true, 10)
+                projectileClass.new(Vector2.new(camera.Xpos - camera.Xdif, camera.Ypos - camera.Ydif), Weapon.getProjectileAngle(), obj.projectileSpeed, true, 10)
                 t = 0
             end
         end
@@ -37,7 +35,7 @@ do
 
     function Weapon.getProjectileAngle()
         local mousePos = Vector2.new(love.mouse.getPosition())
-        local plrPos = Vector2.new(windowWidth / 2, windowHeight / 2)
+        local plrPos = Vector2.new(windowWidth / 2 - camera.Xdif, windowHeight / 2 - camera.Ydif)
         return mousePos:sub(plrPos):unit()
     end                         
 end

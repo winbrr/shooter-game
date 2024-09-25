@@ -27,16 +27,16 @@ do
         t = t + deltaTime
         for i, obj in ipairs(inventory) do
             if t > obj.fireRate and love.keyboard.isDown("space") then
-                projectileClass.new(Vector2.new(camera.Xpos - camera.Xdif, camera.Ypos - camera.Ydif), Weapon.getProjectileAngle(), obj.projectileSpeed, true, 10)
+                projectileClass.new(Vector2.new(player.Xpos, player.Ypos), Weapon.getProjectileDirection(), obj.projectileSpeed, true, 10)
                 t = 0
             end
         end
     end
 
-    function Weapon.getProjectileAngle()
+    function Weapon.getProjectileDirection()
         local mousePos = Vector2.new(love.mouse.getPosition())
-        local plrPos = Vector2.new(windowWidth / 2 - camera.Xdif, windowHeight / 2 - camera.Ydif)
-        return mousePos:sub(plrPos):unit()
+        local plrPos = Vector2.new(camera:toScreen(player.Xpos,player.Ypos))
+        return plrPos:sub(mousePos):unit()
     end                         
 end
 

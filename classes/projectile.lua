@@ -36,7 +36,8 @@ do
     function Projectile.draw()
         for i, obj in ipairs(projectiles) do
             local halfSize = obj.size / 2
-            love.graphics.circle("fill", obj.position.x - camera.Xpos + (windowWidth / 2) - halfSize, obj.position.y - camera.Ypos + (windowHeight / 2) - halfSize, obj.size)
+            local px, py =  camera:toScreen(obj.position.x, obj.position.y)
+            love.graphics.circle("fill", px, py, obj.size)
         end
     end
 

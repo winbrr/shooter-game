@@ -21,8 +21,8 @@ do
         player:update(deltaTime)
         projectileClass.update(deltaTime)
         local cameraSpeed = 4
-        self.Xpos = mathUtils.lerpF(self.Xpos, player.Xpos, cameraSpeed, deltaTime)
-        self.Ypos = mathUtils.lerpF(self.Ypos, player.Ypos, cameraSpeed, deltaTime)
+        self.Xpos = mathUtils.lerpF(self.Xpos, player.Xpos + (windowWidth / 2), cameraSpeed, deltaTime)
+        self.Ypos = mathUtils.lerpF(self.Ypos, player.Ypos + (windowHeight / 2), cameraSpeed, deltaTime)
     end
 
     function Camera:draw()

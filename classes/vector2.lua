@@ -91,7 +91,8 @@ do
     end
 
     function Vector2.angle(from, to)
-        return math.acos(clamp(from:unit():dot(to:unit()), -1, 1)) * 57.29578
+        -- return math.acos(clamp(from:unit():dot(to:unit()), -1, 1)) * 57.29578
+        return math.atan2(to.y - from.y, to.x - from.x)
     end
 
     function Vector2.angleRad(from, to)

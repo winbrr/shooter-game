@@ -51,7 +51,7 @@ do
         local width, height = self.image:getDimensions()
         local px, py = camera:toScreen(player.Xpos, player.Ypos)
         local flip = 1
-        if love.mouse.getX() < (windowWidth / 2) then
+        if love.mouse.getX() < (px) then
             flip = -1
         else
             flip = 1 

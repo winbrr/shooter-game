@@ -14,12 +14,13 @@ do
         return self:constructor(...) or self
     end
     
-    function Weapon:constructor(fireRate, magSize, reloadSpeed, projectileSpeed, imagePath)
+    function Weapon:constructor(fireRate, magSize, reloadSpeed, projectileSpeed, imagePath, ammoType)
         self.fireRate = fireRate
         self.magSize = magSize
         self.reloadSpeed = reloadSpeed
         self.projectileSpeed = projectileSpeed
         self.imagePath = imagePath
+        self.ammoType = ammoType
     end
 
     local t = 0
@@ -27,8 +28,9 @@ do
     function Weapon.update(deltaTime, inventory)
         t = t + deltaTime
         local obj = inventory[weaponIndex]
-        if t > obj.fireRate and love.mouse.isDown(1) then
+        if t > obj.fireRate and love.mouse.isDown(1) and player.ammoReserve[obj.ammoType] > 0 then
             projectileClass.new(Vector2.new(player.Xpos, player.Ypos), Weapon.getProjectileDirection(), obj.projectileSpeed, true, 5)
+            player.ammoReserve[obj.ammoType] = player.ammoReserve[obj.ammoType] - 1
             t = 0
         end
     end

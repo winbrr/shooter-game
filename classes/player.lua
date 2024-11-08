@@ -18,10 +18,16 @@ do
         self.speed = speed
         self.Xpos, self.Ypos = Xpos, Ypos
         self.health = health
+        self.ammoReserve = {
+            light = 10,
+            medium = 0,
+            heavy = 0,
+            shotgun = 0
+        }
     end
 
     function Player:loadPlayer()
-
+    
     end
 
     function Player:update(deltaTime)

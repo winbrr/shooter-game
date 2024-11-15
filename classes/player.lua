@@ -13,11 +13,12 @@ do
         return self:constructor(...) or self
     end
     
-    function Player:constructor(size, speed, Xpos, Ypos,health)
+    function Player:constructor(size, speed, Xpos, Ypos,health, pickupRange)
         self.size = size
         self.speed = speed
         self.Xpos, self.Ypos = Xpos, Ypos
         self.health = health
+        self.pickupRange = pickupRange
         self.ammoReserve = {
             light = 10,
             medium = 0,

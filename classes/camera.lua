@@ -29,7 +29,7 @@ do
     function Camera:draw()
         player:draw()
         projectileClass.draw()
-        pickupClass:draw()
+        pickupClass.draw()
     end
 
     function Camera:toWorld(x,y)

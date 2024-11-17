@@ -6,7 +6,7 @@ do
         end,
     })
     Projectile.__index = Projectile
-    
+
     local projectiles = {}
 
     function Projectile.new(...)
@@ -22,19 +22,21 @@ do
         self.isFriendly = isFriendly
         self.t = love.timer.getTime()
         self.size = size
-
-        table.insert(projectiles, self)
+        projectiles[id()] = self
     end
 
     function Projectile.update(deltaTime)
         local t = love.timer.getTime()
-        for _, obj in ipairs(projectiles) do
+        for i, obj in pairs(projectiles) do
             obj.position = obj.origin:add(obj.direction:mul(obj.speed * (t - obj.t)))
+            if t - obj.t > 10 then
+                projectiles[i] = nil
+            end
         end
     end
 
     function Projectile.draw()
-        for i, obj in ipairs(projectiles) do
+        for i, obj in pairs(projectiles) do
             local halfSize = obj.size / 2
             local px, py =  camera:toScreen(obj.position.x, obj.position.y)
             love.graphics.circle("fill", px, py, obj.size)
@@ -42,7 +44,7 @@ do
     end
 
     function Projectile.detectCollision(plr)
-        for i, obj in ipairs(projectiles) do
+        for i, obj in pairs(projectiles) do
             local playerPosition = Vector2.new(plr.Xpos, plr.Ypos)
             local difference = playerPosition:sub(obj.position)
             

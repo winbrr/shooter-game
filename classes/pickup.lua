@@ -37,6 +37,12 @@ do
                         player.ammoReserve[ammoType] = player.ammoReserve[ammoType] + obj.value
                         pickups[i] = nil
                     end
+                elseif obj.category == "health" then
+                    player.health = player.health + obj.value
+                    if player.health > player.healthLimit then
+                        player.health = player.healthLimit
+                    end
+                    pickups[i] = nil
                 end
             end
         end

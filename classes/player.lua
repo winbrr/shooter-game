@@ -19,12 +19,14 @@ do
         self.Xpos, self.Ypos = Xpos, Ypos
         self.health = health
         self.pickupRange = pickupRange
+        self.healthLimit = 100
         self.ammoReserve = {
             light = 10,
             medium = 0,
             heavy = 0,
             shotgun = 0
         }
+  
     end
 
     function Player:loadPlayer()
@@ -58,10 +60,7 @@ do
         local halfSize = self.size / 2
         local rx, ry = camera:toScreen(self.Xpos, self.Ypos)
         love.graphics.rectangle("fill", rx - halfSize, ry - halfSize, self.size, self.size)
-    end
-
-    function Player:drawHealth()
-        love.graphics.print("Health: ".. self.health,0,0)
+        love.graphics.print(self.health)
     end
 end
 

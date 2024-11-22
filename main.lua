@@ -2,6 +2,7 @@
 Vector2 = require("classes/vector2")
 projectileClass = require("classes/projectile")
 pickupClass = require("classes/pickup")
+enemyClass = require("classes/enemy")
 mathUtils = require("utils/mathUtils")
 id = require("utils/id")
 local playerClass = require("classes/player")
@@ -18,6 +19,8 @@ weaponIndex = 1
 
 local pickupTest = pickupClass.new(10, "ammo", 70, 70, 40)
 local pickupHealth = pickupClass.new(100, "health", -70, -70, 40)
+local enemyTest = enemyClass.new(100, 50, 200, 200)
+local enemyTest2 = enemyClass.new(100, 50, -200, -200)
 
 local function drawReference()
     local rx, ry = camera:toScreen(0,0)
@@ -35,7 +38,7 @@ function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
     for i, obj in ipairs(inventory) do
         obj:load()
-    end
+     end
 end
 
 function love.update(deltaTime)

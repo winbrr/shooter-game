@@ -21,6 +21,7 @@ do
         player:update(deltaTime)
         projectileClass.update(deltaTime)
         pickupClass:update()
+        enemyClass.update(deltaTime)
         local cameraSpeed = 4
         self.Xpos = mathUtils.lerpF(self.Xpos, player.Xpos + (windowWidth / 2), cameraSpeed, deltaTime)
         self.Ypos = mathUtils.lerpF(self.Ypos, player.Ypos + (windowHeight / 2), cameraSpeed, deltaTime)
@@ -30,6 +31,7 @@ do
         player:draw()
         projectileClass.draw()
         pickupClass.draw()
+        enemyClass.draw()
     end
 
     function Camera:toWorld(x,y)

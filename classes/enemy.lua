@@ -8,35 +8,29 @@ do
     Enemy.__index = Enemy
 
     local enemies = {}
-    
+   
     function Enemy.new(...)
         local self = setmetatable({}, Enemy)
         return self:constructor(...) or self
     end
-    
-    function Enemy:constructor(velocity, size, Xpos, Ypos)
-        self.velocity = velocity
+   
+    function Enemy:constructor(size, Xpos, Ypos)
+        self.velocity = Vector2.zero
         self.size = size
-        self.Xpos = Xpos
-        self.Ypos = Ypos
-        self.position = Vector2.new(self.Xpos, self.Ypos)
+        self.position = Vector2.new(Xpos, Ypos)
         enemies[id()] = self
     end
-    
+   
     function Enemy.update(deltaTime)
         for _, obj in pairs(enemies) do
             local speed = 0.2 * deltaTime
-            local plrPos = Vector2.new(player.Xpos,player.Ypos)
-            obj.position = Vector2.new(obj.Xpos, obj.Ypos)
-            
-            obj.velocity = (plrPos:sub(obj.position)):unit():mul(speed)
+            local plrPos = Vector2.new(player.Xpos, player.Ypos)
+           
+            obj.velocity = plrPos:sub(obj.position):unit():mul(speed)
 
             local flocking = obj:calculateFlocking(obj.velocity)
-            obj.velocity = (obj.velocity:add(flocking)):unit():mul(speed)
-
+            obj.velocity = obj.velocity:add(flocking):unit():mul(speed)
             obj.position = obj.position:add(obj.velocity)
-            obj.Xpos = obj.position.x
-            obj.Ypos= obj.position.y
         end
     end
 
@@ -48,36 +42,35 @@ do
 
         local neighbours = enemies
         if #neighbours == 0 then
-            return Vector2.new()
+            return Vector2.zero
         end
 
-        local cohesion = Vector2.new()
-        local alignment = Vector2.new()
-        local separation = Vector2.new()
+        local cohesion = Vector2.zero
+        local alignment = Vector2.zero
+        local separation = Vector2.zero
 
         local count = 0
 
         for _, neighbour in ipairs(neighbours) do
-            self.position = Vector2.new(self.Xpos, self.Ypos)
             local distance = self.position:sub():magnitude()
 
-            alignment = alignment + (neighbour.velocity or Vector2.new())
+            alignment = alignment:add(neighbour.velocity or Vector2.zero)
 
             if distance < separationDistance then
                 count = count + 1
-                cohesion = cohesion + neighbour.position
-                separation = separation + (self.position - neighbour.position)
+                cohesion = cohesion:add(neighbour.position)
+                separation = separation:add(self.position:sub(neighbour.position))
             end
         end
 
         if count > 0 then
-            cohesion = ((cohesion / count) - self.position) * cohesionWeight
+            cohesion = cohesion:div(count):sub(self.position):mul(cohesionWeight)
         end
 
-        alignment = ((alignment / #neighbours) - velocity) * alignmentWeight
-        separation = separation * separationWeight
+        alignment = alignment:div(#neighbours):sub(velocity):mul(alignmentWeight)
+        separation = separation:mul(separationWeight)
 
-        return cohesion + alignment + separation
+        return cohesion:add(alignment):add(separation)
     end  
     function Enemy.draw()
         for _, obj in pairs(enemies) do
@@ -85,7 +78,7 @@ do
             local rx, ry =  camera:toScreen(obj.position.x, obj.position.y)
             love.graphics.rectangle("fill", rx - halfSize, ry - halfSize, obj.size, obj.size)
         end
-    end 
+    end
 end
 
 return Enemy

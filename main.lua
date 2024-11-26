@@ -19,8 +19,8 @@ weaponIndex = 1
 
 local pickupTest = pickupClass.new(10, "ammo", 70, 70, 40)
 local pickupHealth = pickupClass.new(100, "health", -70, -70, 40)
-local enemyTest = enemyClass.new(100, 50, 200, 200)
-local enemyTest2 = enemyClass.new(100, 50, -200, -200)
+local enemyTest = enemyClass.new(50, 200, 200)
+local enemyTest2 = enemyClass.new(50, -200, -200)
 
 local function drawReference()
     local rx, ry = camera:toScreen(0,0)

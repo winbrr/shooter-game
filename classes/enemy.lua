@@ -18,7 +18,8 @@ do
         self.velocity = Vector2.zero
         self.size = size
         self.position = Vector2.new(Xpos, Ypos)
-        enemies[id()] = self
+        self.id = id()
+        enemies[self.id] = self
     end
    
     function Enemy.update(deltaTime)
@@ -40,8 +41,7 @@ do
         local alignmentWeight = 0.161
         local separationWeight = 0.46
 
-        local neighbours = enemies
-        if #neighbours == 0 then
+        if #enemies == 0 then
             return Vector2.zero
         end
 
@@ -51,7 +51,11 @@ do
 
         local count = 0
 
-        for _, neighbour in ipairs(neighbours) do
+        for id, neighbour in pairs(enemies) do
+            if id == self.id then
+                goto skip
+            end
+
             local distance = self.position:sub():magnitude()
 
             alignment = alignment:add(neighbour.velocity or Vector2.zero)
@@ -61,6 +65,8 @@ do
                 cohesion = cohesion:add(neighbour.position)
                 separation = separation:add(self.position:sub(neighbour.position))
             end
+
+            ::skip::
         end
 
         if count > 0 then

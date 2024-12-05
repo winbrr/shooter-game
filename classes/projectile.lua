@@ -38,20 +38,8 @@ do
     function Projectile.draw()
         for i, obj in pairs(projectiles) do
             local halfSize = obj.size / 2
-            local px, py =  camera:toScreen(obj.position.x, obj.position.y)
-            love.graphics.circle("fill", px, py, obj.size)
-        end
-    end
-
-    function Projectile.detectCollision(plr)
-        for i, obj in pairs(projectiles) do
-            local playerPosition = Vector2.new(plr.Xpos, plr.Ypos)
-            local difference = playerPosition:sub(obj.position)
-            
-            if Vector2.magnitude(difference) < obj.size  and obj.isFriendly == false then
-                plr.health = plr.health - 1
-                table.remove(projectiles,i)
-            end
+            local position =  camera:toScreen(obj.position)
+            love.graphics.circle("fill", position.x, position.y, obj.size)
         end
     end
 end

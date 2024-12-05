@@ -82,6 +82,14 @@ do
         end
     end
 
+    function Vector2:unpack()
+        return self.x, self.y
+    end
+
+    function Vector2:distance(n)
+        return self:sub(n):magnitude()
+    end
+
     function Vector2.magnitude(vector)
         return math.sqrt(vector.x * vector.x + vector.y * vector.y)
     end

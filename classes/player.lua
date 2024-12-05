@@ -13,10 +13,10 @@ do
         return self:constructor(...) or self
     end
     
-    function Player:constructor(size, speed, Xpos, Ypos,health, pickupRange)
+    function Player:constructor(size, speed, health, pickupRange)
         self.size = size
         self.speed = speed
-        self.Xpos, self.Ypos = Xpos, Ypos
+        self.position = Vector2.zero
         self.health = health
         self.pickupRange = pickupRange
         self.healthLimit = 100
@@ -31,6 +31,10 @@ do
 
     function Player:loadPlayer()
     
+    end
+
+    function Player:distanceFrom(obj)
+        return self.position:distance(obj.position)
     end
 
     function Player:update(deltaTime)
@@ -52,14 +56,14 @@ do
 
         vector = vector:unit():mul(self.speed * deltaTime)
 
-        self.Xpos = self.Xpos + vector.x
-        self.Ypos = self.Ypos + vector.y
+        self.position = self.position:add(vector)
+
     end
 
     function Player:draw()
         local halfSize = self.size / 2
-        local rx, ry = camera:toScreen(self.Xpos, self.Ypos)
-        love.graphics.rectangle("fill", rx - halfSize, ry - halfSize, self.size, self.size)
+        local position = camera:toScreen(self.position)
+        love.graphics.rectangle("fill", position.x - halfSize, position.y - halfSize, self.size, self.size)
         love.graphics.print(self.health)
     end
 end

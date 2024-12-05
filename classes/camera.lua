@@ -13,8 +13,7 @@ do
     end
     
     function Camera:constructor()
-        self.Xpos = 0
-        self.Ypos = 0
+        self.position = Vector2.zero
     end
 
     function Camera:update(deltaTime)
@@ -22,9 +21,10 @@ do
         projectileClass.update(deltaTime)
         pickupClass:update()
         enemyClass.update(deltaTime)
+
         local cameraSpeed = 4
-        self.Xpos = mathUtils.lerpF(self.Xpos, player.Xpos + (windowWidth / 2), cameraSpeed, deltaTime)
-        self.Ypos = mathUtils.lerpF(self.Ypos, player.Ypos + (windowHeight / 2), cameraSpeed, deltaTime)
+        local center = Vector2.new(windowWidth / 2, windowHeight / 2);
+        self.position = self.position:add(player.position:add(center):sub(self.position):mul(1 - math.exp(-cameraSpeed * deltaTime)))
     end
 
     function Camera:draw()
@@ -34,13 +34,12 @@ do
         enemyClass.draw()
     end
 
-    function Camera:toWorld(x,y)
-        local wx, wy = x - (windowWidth / 2) - self.Xpos, y - (windowHeight / 2) - self.Ypos
-        return self.Xpos - x, self.Ypos - y
+    function Camera:toWorld(position)
+        -- do later
     end
 
-    function Camera:toScreen(x,y)
-        return self.Xpos - x, self.Ypos - y
+    function Camera:toScreen(position)
+        return self.position:sub(position)
     end
 end
 return Camera

@@ -29,7 +29,7 @@ do
         t = t + deltaTime
         local obj = inventory[weaponIndex]
         if t > obj.fireRate and love.mouse.isDown(1) and player.ammoReserve[obj.ammoType] > 0 then
-            projectileClass.new(Vector2.new(player.Xpos, player.Ypos), Weapon.getProjectileDirection(), obj.projectileSpeed, true, 5)
+            projectileClass.new(player.position, Weapon.getProjectileDirection(), obj.projectileSpeed, true, 5)
             player.ammoReserve[obj.ammoType] = player.ammoReserve[obj.ammoType] - 1
             t = 0
         end
@@ -37,7 +37,7 @@ do
 
     function Weapon.getProjectileDirection()
         local mousePos = Vector2.new(love.mouse.getPosition())
-        local plrPos = Vector2.new(camera:toScreen(player.Xpos,player.Ypos))
+        local plrPos = camera:toScreen(player.position)
         return plrPos:sub(mousePos):unit(), Vector2.angle(plrPos, mousePos)
     end
 
@@ -51,14 +51,14 @@ do
         end
         local _, angle = Weapon.getProjectileDirection()
         local width, height = self.image:getDimensions()
-        local px, py = camera:toScreen(player.Xpos, player.Ypos)
+        local position = camera:toScreen(player.position)
         local flip = 1
-        if love.mouse.getX() < (px) then
+        if love.mouse.getX() < position.x then
             flip = -1
         else
             flip = 1 
         end
-        love.graphics.draw(self.image, px, py, angle, 1, flip, width / 2, height / 2)
+        love.graphics.draw(self.image, position.x, position.y, angle, 1, flip, width / 2, height / 2)
     end
 end
 

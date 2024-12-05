@@ -25,15 +25,24 @@ do
    
     function Enemy.update(deltaTime)
         for _, obj in pairs(enemies) do
-            if player:distanceFrom(obj) > 300 then
-                obj.velocity = player.position:sub(obj.position):unit():mul(obj.speed)
-            else
-                obj.velocity = Vector2.zero
+            local speed = obj.speed
+    
+            if player:distanceFrom(obj) < 300 then
+                if player:distanceFrom(obj) < 250 then
+                    obj.velocity = player.position:sub(obj.position):unit():mul(-obj.speed)
+                    obj.position = obj.position:add(obj.velocity)
+                end
+    
+                goto ignore
             end
+    
+            obj.velocity = player.position:sub(obj.position):unit():mul(speed)
             
             local flocking = obj:calculateFlocking(obj.velocity)
-            obj.velocity = obj.velocity:add(flocking):unit():mul(obj.speed)
+            obj.velocity = obj.velocity:add(flocking):unit():mul(speed)
             obj.position = obj.position:add(obj.velocity)
+    
+            ::ignore::
         end
     end
 

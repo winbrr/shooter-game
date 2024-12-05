@@ -35,6 +35,7 @@ local function drawReference()
   end
 
 function love.load()
+    love._openConsole()
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
     for i, obj in ipairs(inventory) do
         obj:load()

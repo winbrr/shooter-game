@@ -14,13 +14,14 @@ do
         return self:constructor(...) or self
     end
     
-    function Weapon:constructor(fireRate, magSize, reloadSpeed, projectileSpeed, imagePath, ammoType)
+    function Weapon:constructor(fireRate, magSize, reloadSpeed, projectileSpeed, imagePath, ammoType, damage)
         self.fireRate = fireRate
         self.magSize = magSize
         self.reloadSpeed = reloadSpeed
         self.projectileSpeed = projectileSpeed
         self.imagePath = imagePath
         self.ammoType = ammoType
+        self.damage = damage
     end
 
     local t = 0
@@ -29,7 +30,7 @@ do
         t = t + deltaTime
         local obj = inventory[weaponIndex]
         if t > obj.fireRate and love.mouse.isDown(1) and player.ammoReserve[obj.ammoType] > 0 then
-            projectileClass.new(player.position, Weapon.getProjectileDirection(), obj.projectileSpeed, true, 5)
+            projectileClass.new(player.position, Weapon.getProjectileDirection(), obj.projectileSpeed, true, 5, obj.damage)
             player.ammoReserve[obj.ammoType] = player.ammoReserve[obj.ammoType] - 1
             t = 0
         end
@@ -38,7 +39,7 @@ do
     function Weapon.getProjectileDirection()
         local mousePos = Vector2.new(love.mouse.getPosition())
         local plrPos = camera:toScreen(player.position)
-        return plrPos:sub(mousePos):unit(), Vector2.angle(plrPos, mousePos)
+        return plrPos:getDirection(mousePos)
     end
 
     function Weapon:load()

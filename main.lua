@@ -11,16 +11,16 @@ local cameraClass = require("classes/camera")
 
 windowWidth, windowHeight = love.graphics.getDimensions()
 player = playerClass.new(50, 600, 100, 40)
-local defaultWeapon = weaponClass.new(0.2, 10, 1, 1500, "assets/sprites/guns/G19.png", "light")
-local defaultWeapon2 = weaponClass.new(0.1, 5, 1, 1500, "assets/sprites/guns/F1.png", "medium")
+local defaultWeapon = weaponClass.new(0.2, 10, 1, 1500, "assets/sprites/guns/G19.png", "light", 25)
+local defaultWeapon2 = weaponClass.new(0.1, 5, 1, 1500, "assets/sprites/guns/F1.png", "medium", 35)
 local inventory = {defaultWeapon, defaultWeapon2}
 camera = cameraClass.new()
 weaponIndex = 1
 
 local pickupTest = pickupClass.new(10, "ammo", 70, 70, 40)
 local pickupHealth = pickupClass.new(100, "health", -70, -70, 40)
-local enemyTest = enemyClass.new(50, 200, 200)
-local enemyTest2 = enemyClass.new(50, -200, -200)
+local enemyTest = enemyClass.new(50, 200, 200, 100)
+local enemyTest2 = enemyClass.new(50, -200, -200, 100)
 
 -- local function drawReference()
 --     local rx, ry = camera:toScreen(0,0)

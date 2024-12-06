@@ -7,14 +7,14 @@ do
     })
     Projectile.__index = Projectile
 
-    local projectiles = {}
+    projectiles = {}
 
     function Projectile.new(...)
         local self = setmetatable({}, Projectile)
         return self:constructor(...) or self
     end
     
-    function Projectile:constructor(origin, direction, speed, isFriendly, size)
+    function Projectile:constructor(origin, direction, speed, isFriendly, size, damage)
         self.position = origin
         self.origin = origin
         self.direction = direction
@@ -22,6 +22,7 @@ do
         self.isFriendly = isFriendly
         self.t = love.timer.getTime()
         self.size = size
+        self.damage = damage
         projectiles[id()] = self
     end
 

@@ -14,19 +14,23 @@ do
         return self:constructor(...) or self
     end
    
-    function Enemy:constructor(size, Xpos, Ypos)
+    function Enemy:constructor(size, Xpos, Ypos, health)
         self.velocity = Vector2.zero
         self.size = size
         self.position = Vector2.new(Xpos, Ypos)
+        self.health = health
         self.id = id()
         self.speed = 3
         enemies[self.id] = self
     end
-   
-    function Enemy.update(deltaTime)
-        for _, obj in pairs(enemies) do
+
+    function Enemy.update()
+        for i, obj in pairs(enemies) do
+            obj:detectCollisions()
+            obj:checkHealth(obj, i)
+            
             local speed = obj.speed
-    
+            
             if player:distanceFrom(obj) < 300 then
                 if player:distanceFrom(obj) < 250 then
                     obj.velocity = player.position:sub(obj.position):unit():mul(-obj.speed)
@@ -44,6 +48,21 @@ do
     
             ::ignore::
         end
+    end
+
+    function Enemy:detectCollisions()
+        for i, obj in pairs(projectiles) do
+            if obj.position:distance(self.position) < self.size and obj.isFriendly == true then
+                self.health = self.health - obj.damage
+                projectiles[i] = nil
+            end
+        end
+    end
+
+    function Enemy:checkHealth(x, y)
+        if x.health <= 0 then
+            enemies[y] = nil
+         end
     end
 
     function Enemy:getNeighbours()

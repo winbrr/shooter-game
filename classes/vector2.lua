@@ -90,6 +90,10 @@ do
         return self:sub(n):magnitude()
     end
 
+    function Vector2:getDirection(n)
+        return self:sub(n):unit(), Vector2.angle(self, n) -- returns the vector and angle
+    end
+
     function Vector2.magnitude(vector)
         return math.sqrt(vector.x * vector.x + vector.y * vector.y)
     end

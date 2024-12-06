@@ -59,9 +59,9 @@ do
         end
     end
 
-    function Enemy:checkHealth(x, y)
-        if x.health <= 0 then
-            enemies[y] = nil
+    function Enemy:checkHealth(enemy, index)
+        if enemy.health <= 0 then
+            enemies[index] = nil
          end
     end
 

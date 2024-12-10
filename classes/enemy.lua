@@ -21,13 +21,19 @@ do
         self.health = health
         self.id = id()
         self.speed = 3
+        self.lastShot = 0
+        self.fireRate = 1
         enemies[self.id] = self
     end
 
-    function Enemy.update()
+    local t = 0
+
+    function Enemy.update(deltaTime)
+        t = t + deltaTime
         for i, obj in pairs(enemies) do
+            obj:basicAttack()
             obj:detectCollisions()
-            obj:checkHealth(obj, i)
+            obj:checkHealth(i)
             
             local speed = obj.speed
             
@@ -50,6 +56,14 @@ do
         end
     end
 
+    function Enemy:basicAttack()
+        if self.lastShot + self.fireRate < t then
+            local direction, _ = player.position:add(player.moveDirection):getDirection(self.position)
+            projectileClass.new(self.position, direction, 300, false, 5, 10)
+            self.lastShot = t
+        end
+    end
+
     function Enemy:detectCollisions()
         for i, obj in pairs(projectiles) do
             if obj.position:distance(self.position) < self.size and obj.isFriendly == true then
@@ -59,8 +73,8 @@ do
         end
     end
 
-    function Enemy:checkHealth(enemy, index)
-        if enemy.health <= 0 then
+    function Enemy:checkHealth(index)
+        if self.health <= 0 then
             enemies[index] = nil
          end
     end

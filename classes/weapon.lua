@@ -1,5 +1,3 @@
-local Player = require("classes/player")
-
 local Weapon
 do
     Weapon = setmetatable({}, {

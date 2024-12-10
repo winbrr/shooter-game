@@ -20,6 +20,7 @@ do
         self.health = health
         self.pickupRange = pickupRange
         self.healthLimit = 100
+        self.moveDirection = Vector2.zero
         self.ammoReserve = {
             light = 10,
             medium = 0,
@@ -37,7 +38,18 @@ do
         return self.position:distance(obj.position)
     end
 
+    function Player:detectCollisions()
+        for i, obj in pairs(projectiles) do
+            if self:distanceFrom(obj) < self.size and obj.isFriendly == false then
+                self.health = self.health - obj.damage
+                projectiles[i] = nil
+            end
+        end
+    end
+
     function Player:update(deltaTime)
+        self:detectCollisions()
+
         local x, y = 0, 0
 
         if love.keyboard.isDown("d") then
@@ -57,7 +69,7 @@ do
         vector = vector:unit():mul(self.speed * deltaTime)
 
         self.position = self.position:add(vector)
-
+        self.moveDirection = Vector2.new(x,y):unit():mul(self.speed)
     end
 
     function Player:draw()

@@ -14,11 +14,12 @@ do
         return self:constructor(...) or self
     end
    
-    function Enemy:constructor(size, Xpos, Ypos, health)
+    function Enemy:constructor(size, Xpos, Ypos, maxHealth)
         self.velocity = Vector2.zero
         self.size = size
         self.position = Vector2.new(Xpos, Ypos)
-        self.health = health
+        self.maxHealth = maxHealth
+        self.health = maxHealth
         self.id = id()
         self.speed = 3
         self.lastShot = 0
@@ -31,8 +32,8 @@ do
     function Enemy.update(deltaTime)
         t = t + deltaTime
         for i, obj in pairs(enemies) do
-            obj:basicAttack()
             obj:detectCollisions()
+            obj:basicAttack()
             obj:checkHealth(i)
             
             local speed = obj.speed
@@ -126,8 +127,19 @@ do
 
         return cohesion:add(alignment):add(separation)
     end  
+
+    function Enemy:healthBar()
+        local position = camera:toScreen(self.position)
+        love.graphics.setColor(1,0,0)
+        love.graphics.rectangle("fill", position.x - 20, position.y - 35, 40, 6) --red background
+        love.graphics.setColor(0,1,0)
+        love.graphics.rectangle("fill", position.x - 20, position.y - 35, 40 * (1 / self.maxHealth)* self.health,6) --green bar
+        love.graphics.setColor(1,1,1) --reset colour
+    end
+
     function Enemy.draw()
         for _, obj in pairs(enemies) do
+            obj:healthBar()
             local halfSize = obj.size / 2
             local position =  camera:toScreen(obj.position)
             love.graphics.rectangle("fill", position.x - halfSize, position.y - halfSize, obj.size, obj.size)

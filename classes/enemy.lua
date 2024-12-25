@@ -7,7 +7,7 @@ do
     })
     Enemy.__index = Enemy
 
-    local enemies = {}
+    enemies = {}
    
     function Enemy.new(...)
         local self = setmetatable({}, Enemy)

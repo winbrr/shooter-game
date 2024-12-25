@@ -23,7 +23,7 @@ do
         self.moveDirection = Vector2.zero
         self.ammoReserve = {
             light = 10,
-            medium = 0,
+            medium = 999999,
             heavy = 0,
             shotgun = 0
         }

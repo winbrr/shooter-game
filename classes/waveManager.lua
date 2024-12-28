@@ -22,8 +22,17 @@ do
         local enemiesToSpawn = self.baseEnemies + (self.currentWave - 1) * 2 --increase number of enemies every wave
 
         for i = 1, enemiesToSpawn do
-            local enemyTest = enemyClass.new(50, 200, 200, 100)
+            local Xpos, Ypos = self:generateSpawnPosition()
+            local enemyTest = enemyClass.new(50, Xpos, Ypos, 100)
         end
+    end
+
+    function waveManager:generateSpawnPosition()
+        local angle = math.pi * 2 * math.random()  
+        local distance = math.random(600, 700)  
+        local Xpos = player.position.x + math.cos(angle) * distance
+        local Ypos = player.position.y + math.sin(angle) * distance * 1.5
+        return Xpos, Ypos
     end
 
     function waveManager:startWave()

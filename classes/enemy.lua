@@ -38,8 +38,8 @@ do
             
             local speed = obj.speed
             
-            if player:distanceFrom(obj) < 300 then
-                if player:distanceFrom(obj) < 250 then
+            if player:distanceFrom(obj) < 500 then
+                if player:distanceFrom(obj) < 450 then
                     obj.velocity = player.position:sub(obj.position):unit():mul(-obj.speed)
                     obj.position = obj.position:add(obj.velocity)
                 end

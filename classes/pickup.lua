@@ -14,11 +14,11 @@ do
         return self:constructor(...) or self
     end
     
-    function Pickup:constructor(value, category, Xpos, Ypos, size)
+    function Pickup:constructor(value, category, Xpos, Ypos)
         self.value = value
         self.category = category
         self.position = Vector2.new(Xpos, Ypos)
-        self.size = size
+        self.size = 40
         pickups[id()] = self
     end
     

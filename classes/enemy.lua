@@ -24,6 +24,7 @@ do
         self.speed = 3
         self.lastShot = 0
         self.fireRate = 1
+        self.dropChance = 0.4
         enemies[self.id] = self
     end
 
@@ -57,6 +58,20 @@ do
         end
     end
 
+    function Enemy:dropLoot()
+        local chance = math.random()
+        local typeChance = math.random()
+        local value = math.random(10, 30)
+       
+        if chance < self.dropChance then
+            if typeChance < 0.5 then
+                pickupClass.new(value, "ammo", self.position.x, self.position.y)
+            else
+                pickupClass.new(value, "health", self.position.x, self.position.y)
+            end
+        end
+    end
+
     function Enemy:basicAttack()
         if self.lastShot + self.fireRate < t then
             local direction, _ = player.position:add(player.moveDirection):getDirection(self.position)
@@ -76,6 +91,7 @@ do
 
     function Enemy:checkHealth(index)
         if self.health <= 0 then
+            self:dropLoot()
             enemies[index] = nil
          end
     end

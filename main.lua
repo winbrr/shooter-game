@@ -19,10 +19,6 @@ local waveManager = waveManagerClass.new()
 camera = cameraClass.new()
 weaponIndex = 1
 
-local pickupTest = pickupClass.new(10, "ammo", 70, 70, 40)
-local pickupHealth = pickupClass.new(100, "health", -70, -70, 40)
-
-
 -- local function drawReference()
 --     local rx, ry = camera:toScreen(0,0)
 --     love.graphics.setColor(1, 0, 0)

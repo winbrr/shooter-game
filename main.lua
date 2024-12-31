@@ -4,19 +4,22 @@ projectileClass = require("classes/projectile")
 pickupClass = require("classes/pickup")
 enemyClass = require("classes/enemy")
 mathUtils = require("utils/mathUtils")
+HUDclass = require("classes/HUD")
 id = require("utils/id")
+fonts = require("utils/fonts")
+local waveManagerClass = require("classes/waveManager")
 local playerClass = require("classes/player")
 local weaponClass = require("classes/weapon")
 local cameraClass = require("classes/camera")
-local waveManagerClass = require("classes/waveManager")
+
 
 windowWidth, windowHeight = love.graphics.getDimensions()
 player = playerClass.new(50, 600, 100, 40)
-local defaultWeapon = weaponClass.new(0.2, 10, 1, 1500, "assets/sprites/guns/G19.png", "light", 25)
-local defaultWeapon2 = weaponClass.new(0.1, 5, 1, 1500, "assets/sprites/guns/F1.png", "medium", 35)
-local inventory = {defaultWeapon, defaultWeapon2}
-local waveManager = waveManagerClass.new()
+local defaultWeapon = weaponClass.new("Pistol", 0.2, 10, 1, 1500, "assets/sprites/guns/G19.png", "light", 25)
+local defaultWeapon2 = weaponClass.new("Famas", 0.1, 5, 1, 1500, "assets/sprites/guns/F1.png", "medium", 35)
+waveManager = waveManagerClass.new()
 camera = cameraClass.new()
+inventory = {defaultWeapon, defaultWeapon2}
 weaponIndex = 1
 
 -- local function drawReference()
@@ -41,7 +44,9 @@ end
 
 function love.load()
     love._openConsole()
+    love.graphics.setBackgroundColor(0.024, 0.029, 0.046)
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
+    cameraClass:load()
     for i, obj in ipairs(inventory) do
         obj:load()
     end

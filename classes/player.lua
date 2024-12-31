@@ -20,6 +20,7 @@ do
         self.health = health
         self.pickupRange = pickupRange
         self.healthLimit = 100
+        self.points = 0
         self.moveDirection = Vector2.zero
         self.ammoReserve = {
             light = 10,
@@ -76,7 +77,6 @@ do
         local halfSize = self.size / 2
         local position = camera:toScreen(self.position)
         love.graphics.rectangle("fill", position.x - halfSize, position.y - halfSize, self.size, self.size)
-        love.graphics.print(self.health)
     end
 end
 

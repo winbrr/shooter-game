@@ -12,7 +12,8 @@ do
         return self:constructor(...) or self
     end
     
-    function Weapon:constructor(fireRate, magSize, reloadSpeed, projectileSpeed, imagePath, ammoType, damage)
+    function Weapon:constructor(name, fireRate, magSize, reloadSpeed, projectileSpeed, imagePath, ammoType, damage)
+        self.name = name
         self.fireRate = fireRate
         self.magSize = magSize
         self.reloadSpeed = reloadSpeed

@@ -107,7 +107,7 @@ do
     end
 
     function Enemy:calculateFlocking(velocity)
-        local separationDistance = 75
+        local separationDistance = 120
         local cohesionWeight = 0.032
         local alignmentWeight = 0.161
         local separationWeight = 0.46

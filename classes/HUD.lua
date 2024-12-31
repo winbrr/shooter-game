@@ -1,0 +1,60 @@
+local HUD
+do
+    HUD = setmetatable({}, {
+        __tostring = function()
+            return "HUD"
+        end,
+    })
+    HUD.__index = HUD
+    
+    function HUD.new(...)
+        local self = setmetatable({}, HUD)
+        return self:constructor(...) or self
+    end
+    
+    function HUD:constructor()
+
+    end
+
+    function HUD:load()
+        self.pointsFrame = love.graphics.newImage("assets/sprites/hud/frame_points.png")
+    end
+
+    function HUD:draw()
+        HUD:drawPoints()
+        HUD:drawAmmo()
+        HUD:drawWave()
+        HUD:drawHealth()
+    end
+
+    function HUD:drawPoints()
+        local pointsX = windowWidth - 250
+        local pointsY = windowHeight - 200
+        local width, height = self.pointsFrame:getDimensions( )
+        love.graphics.draw(self.pointsFrame, pointsX, pointsY, 0, 0.5)
+        love.graphics.print("$".. player.points, fonts.pointsFont, pointsX + (width / 16), pointsY + (height / 5.5))
+    end
+
+    function HUD:drawAmmo()
+        local currentWeapon = inventory[weaponIndex]
+        local ammo = player.ammoReserve[currentWeapon.ammoType]
+        love.graphics.print(currentWeapon.name .. "|" .. ammo , fonts.ammoFont, windowWidth - 250, windowHeight - 75)
+    end
+
+    function HUD:drawWave()
+        love.graphics.setColor(0.7,0,0)
+        love.graphics.print(waveManager.currentWave, fonts.waveFont, 25, windowHeight - 150)
+        love.graphics.setColor(1,1,1)
+    end
+
+    function HUD:drawHealth()
+        love.graphics.setColor(0,0,0,0.3)
+        love.graphics.rectangle("fill", 25, windowHeight - 200, 250, 18) -- opaque black background
+        love.graphics.setColor(1,1,1,1)
+        love.graphics.rectangle("fill", 27, windowHeight - 198, 246 * (1 / player.healthLimit)* player.health,14) --white health bar
+        love.graphics.setColor(1,1,1) --reset colour
+        love.graphics.print(player.health, fonts.healthFont, 275, windowHeight - 200)
+    end
+end
+
+return HUD

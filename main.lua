@@ -11,6 +11,7 @@ local waveManagerClass = require("classes/waveManager")
 local playerClass = require("classes/player")
 local weaponClass = require("classes/weapon")
 local cameraClass = require("classes/camera")
+local menuClass = require("classes/menu")
 
 
 windowWidth, windowHeight = love.graphics.getDimensions()
@@ -46,6 +47,7 @@ function love.load()
     love._openConsole()
     love.graphics.setBackgroundColor(0.024, 0.029, 0.046)
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
+    menuClass:load()
     cameraClass:load()
     for i, obj in ipairs(inventory) do
         obj:load()
@@ -53,10 +55,11 @@ function love.load()
 end
 
 function love.update(deltaTime)
-    weaponClass.update(deltaTime, inventory)
-    camera:update(deltaTime)
-    waveManager:update(deltaTime)
-    print(#enemies)
+    if menuClass.active == false then
+        weaponClass.update(deltaTime, inventory)
+        camera:update(deltaTime)
+        waveManager:update(deltaTime)
+    end
 end
 
 function love.draw(deltaTime)
@@ -64,11 +67,13 @@ function love.draw(deltaTime)
     -- drawReference()
     local obj = inventory[weaponIndex]
     obj:draw()
+    menuClass:draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)
     if key == "escape" then
-       love.event.quit()
+        menuClass.active = true
+        menuClass.state = "pause"
     end
     if key == "1" then
         weaponIndex = 1

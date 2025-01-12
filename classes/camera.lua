@@ -32,6 +32,7 @@ do
         projectileClass.draw()
         pickupClass.draw()
         enemyClass.draw()
+        buttonClass.draw()
         HUDclass:draw()
     end
 

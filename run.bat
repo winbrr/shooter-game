@@ -1,2 +1,2 @@
-"C:\Program Files\LOVE\love.exe" .
+"D:\Program Files\LOVE\love.exe" .
 pause >nul

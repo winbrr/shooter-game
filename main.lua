@@ -5,13 +5,14 @@ pickupClass = require("classes/pickup")
 enemyClass = require("classes/enemy")
 mathUtils = require("utils/mathUtils")
 HUDclass = require("classes/HUD")
+buttonClass = require("classes/button")
 id = require("utils/id")
 fonts = require("utils/fonts")
 local waveManagerClass = require("classes/waveManager")
 local playerClass = require("classes/player")
 local weaponClass = require("classes/weapon")
 local cameraClass = require("classes/camera")
-local menuClass = require("classes/menu")
+menuClass = require("classes/menu")
 
 
 windowWidth, windowHeight = love.graphics.getDimensions()
@@ -60,6 +61,8 @@ function love.update(deltaTime)
         camera:update(deltaTime)
         waveManager:update(deltaTime)
     end
+    buttonClass.update()
+    menuClass:update()
 end
 
 function love.draw(deltaTime)
@@ -67,7 +70,6 @@ function love.draw(deltaTime)
     -- drawReference()
     local obj = inventory[weaponIndex]
     obj:draw()
-    menuClass:draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)

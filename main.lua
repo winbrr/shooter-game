@@ -70,10 +70,11 @@ function love.draw(deltaTime)
     -- drawReference()
     local obj = inventory[weaponIndex]
     obj:draw()
+    menuClass:draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)
-    if key == "escape" then
+    if key == "escape" and menuClass.state == "" then
         menuClass.active = true
         menuClass.state = "pause"
     end

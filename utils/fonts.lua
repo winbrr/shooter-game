@@ -3,7 +3,8 @@ fonts = {ammoFont = love.graphics.newFont("assets/fonts/Matrixtype Display Bold.
 pointsFont = love.graphics.newFont("assets/fonts/Matrixtype Display Bold.ttf", 25),
 healthFont = love.graphics.newFont("assets/fonts/Matrixtype Display Bold.ttf", 17),
 waveFont = love.graphics.newFont("assets/fonts/DP Comic.ttf", 150),
-pauseFont = love.graphics.newFont("assets/fonts/Matrixtype Display Bold.ttf", 40)}
+menuFont = love.graphics.newFont("assets/fonts/Matrixtype Display Bold.ttf", 40),
+menuFontLarge = love.graphics.newFont("assets/fonts/Matrixtype Display Bold.ttf", 80)}
 return fonts
 
 

@@ -50,6 +50,7 @@ do
 
     function Player:update(deltaTime)
         self:detectCollisions()
+        self:checkHealth()
 
         local x, y = 0, 0
 
@@ -77,6 +78,12 @@ do
         local halfSize = self.size / 2
         local position = camera:toScreen(self.position)
         love.graphics.rectangle("fill", position.x - halfSize, position.y - halfSize, self.size, self.size)
+    end
+
+    function Player:checkHealth()
+        if self.health < 0 then
+            self.health = 0
+        end
     end
 end
 

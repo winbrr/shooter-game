@@ -30,8 +30,7 @@ do
         local t = love.timer.getTime()
 
         for i, obj in pairs(projectiles) do
-            if menuClass.active then
-                print("willy penis")
+            if menu.active then
                 obj.t = obj.t + deltaTime
             end
             obj.position = obj.origin:add(obj.direction:mul(obj.speed * (t - obj.t)))

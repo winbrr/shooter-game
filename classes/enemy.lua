@@ -154,9 +154,6 @@ do
     end
 
     function Enemy.draw()
-        if waveManager.buyMenuToggle == true then -- wont draw enemies while buy menu active
-            return 
-        end
         for _, obj in pairs(enemies) do
             obj:healthBar()
             local halfSize = obj.size / 2

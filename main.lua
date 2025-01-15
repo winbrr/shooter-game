@@ -22,6 +22,8 @@ local defaultWeapon = weaponClass.new("Pistol", 0.2, 10, 1, 1500, "assets/sprite
 local defaultWeapon2 = weaponClass.new("Famas", 0.1, 5, 1, 1500, "assets/sprites/guns/F1.png", "medium", 35)
 waveManager = waveManagerClass.new()
 camera = cameraClass.new()
+menu = menuClass.new()
+hud = HUDclass.new()
 inventory = {defaultWeapon, defaultWeapon2}
 weaponIndex = 1
 
@@ -49,22 +51,20 @@ function love.load()
     love._openConsole()
     love.graphics.setBackgroundColor(0.024, 0.029, 0.046)
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
-    menuClass:load()
-    cameraClass:load()
     for i, obj in ipairs(inventory) do
         obj:load()
     end
 end
 
 function love.update(deltaTime)
-    if menuClass.active == false then
+    if menu.active == false then
         weaponClass.update(deltaTime, inventory)
         camera:update(deltaTime)
         waveManager:update(deltaTime)
     end
     projectileClass.update(deltaTime)
     buttonClass.update()
-    menuClass:update()
+    menu:update()
 end
 
 function love.draw(deltaTime)
@@ -72,14 +72,14 @@ function love.draw(deltaTime)
     -- drawReference()
     local obj = inventory[weaponIndex]
     obj:draw()
-    menuClass:draw()
+    menu:draw()
     buttonClass.draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)
-    if key == "escape" and menuClass.state == "" then
-        menuClass.active = true
-        menuClass.state = "pause"
+    if key == "escape" and menu.state == "" then
+        menu.active = true
+        menu.state = "pause"
     end
     if key == "1" then
         weaponIndex = 1

@@ -16,33 +16,30 @@ do
         self.active = false
         self.state = ""
         self.buyMenuStrikes = 3
-    end
-
-    function Menu:load()
-        self.active = false
-        self.state = "" -- dont remove
-        self.buyMenuStrikes = 3
         self.buyFrame = love.graphics.newImage("assets/sprites/hud/frame_buy_card.png")
+        self.buttonResume = buttonClass.new("Resume", 20, 20, 200, 50, fonts.menuFont, function() self:resume() end)
+        self.quitButton01 = buttonClass.new("Quit", 20, 90, 200, 50, fonts.menuFont, function() love.event.quit() end)
+        self.quitButton02 = buttonClass.new("Quit", 10, 140, 120, 50, fonts.menuFont, function() love.event.quit() end)
+        self.buyButton = buttonClass.new("Buy", 668, 900, 120, 50, fonts.menuFont, function() love.event.quit() end)
+        self.skipButton = buttonClass.new("Skip", 1100, 900, 120, 50, fonts.menuFont, function() self:skipCard() end)
     end
 
     function Menu:update()
-        Menu:activatePause()
-        Menu:activateGameOver()
-        Menu:activateBuyMenu()
-        Menu:updateBuyMenu()
+        self:activatePause()
+        self:activateGameOver()
+        self:activateBuyMenu()
+        self:updateBuyMenu()
     end
 
     function Menu:draw()
-        Menu:drawGameOver()
-        Menu:drawBuyMenu()
+        self:drawGameOver()
+        self:drawBuyMenu()
     end
 
     function Menu:activatePause()
         if self.active == true and self.state == "pause" then -- runs if the pause menu is active
-            if table.getn(buttons) == 0 then -- checks of there are no buttons on screen currently
-                buttonClass.new("Resume", 20, 20, 200, 50, fonts.menuFont, function() Menu:resume() end)
-                buttonClass.new("Quit", 20, 90, 200, 50, fonts.menuFont, function() love.event.quit() end)
-            end
+            self.buttonResume.visible = true
+            self.quitButton01.visible = true
         end
     end
 
@@ -50,9 +47,8 @@ do
         if player.health <= 0 then
             self.active = true
             self.state = "gameover"
-            buttonClass.new("Quit", 10, 140, 120, 50, fonts.menuFont, function() love.event.quit() end)
-        end
-            
+            self.quitButton02.visible = true
+        end  
     end
 
     function Menu:drawGameOver()
@@ -65,8 +61,8 @@ do
     function Menu:resume()
         self.active = false
         self.state = ""
-        for i, obj in pairs(buttons) do -- removes pause buttons
-            buttons[i] = nil
+        for i, obj in pairs(buttons) do -- hides buttons
+            obj.visible = false
         end
     end
 
@@ -74,8 +70,9 @@ do
         if waveManager.buyMenuToggle == true then
             self.active = true
             self.state = "buy"
-            buttonClass.new("Buy", 668, 900, 120, 50, fonts.menuFont, function() love.event.quit() end)
-            buttonClass.new("Skip", 1100, 900, 120, 50, fonts.menuFont, function() Menu:skipCard() end)
+            self.buyButton.visible = true
+            self.skipButton.visible = true
+            waveManager.buyMenuToggle = false
         end
     end
 
@@ -93,7 +90,7 @@ do
         if self.buyMenuStrikes <= 0 then
             self.state = ""
             self.active = false
-            Menu:resume()
+            self:resume()
         end
     end
 end

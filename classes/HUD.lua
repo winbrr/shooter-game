@@ -13,18 +13,14 @@ do
     end
     
     function HUD:constructor()
-
-    end
-
-    function HUD:load()
         self.pointsFrame = love.graphics.newImage("assets/sprites/hud/frame_points.png")
     end
 
     function HUD:draw()
-        HUD:drawPoints()
-        HUD:drawAmmo()
-        HUD:drawWave()
-        HUD:drawHealth()
+        self:drawPoints()
+        self:drawAmmo()
+        self:drawWave()
+        self:drawHealth()
     end
 
     function HUD:drawPoints()

@@ -31,11 +31,7 @@ do
         projectileClass.draw()
         pickupClass.draw()
         enemyClass.draw()
-        HUDclass:draw()
-    end
-
-    function Camera:load()
-        HUDclass:load()
+        hud:draw()
     end
 
     function Camera:toWorld(position)

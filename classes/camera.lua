@@ -18,7 +18,6 @@ do
 
     function Camera:update(deltaTime)
         player:update(deltaTime)
-        projectileClass.update(deltaTime)
         pickupClass:update()
         enemyClass.update(deltaTime)
 
@@ -32,7 +31,6 @@ do
         projectileClass.draw()
         pickupClass.draw()
         enemyClass.draw()
-        buttonClass.draw()
         HUDclass:draw()
     end
 

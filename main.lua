@@ -7,7 +7,8 @@ mathUtils = require("utils/mathUtils")
 HUDclass = require("classes/HUD")
 buttonClass = require("classes/button")
 id = require("utils/id")
-fonts = require("utils/fonts")
+require("config/fonts")
+require("config/upgrades")
 local waveManagerClass = require("classes/waveManager")
 local playerClass = require("classes/player")
 local weaponClass = require("classes/weapon")
@@ -61,6 +62,7 @@ function love.update(deltaTime)
         camera:update(deltaTime)
         waveManager:update(deltaTime)
     end
+    projectileClass.update(deltaTime)
     buttonClass.update()
     menuClass:update()
 end
@@ -71,6 +73,7 @@ function love.draw(deltaTime)
     local obj = inventory[weaponIndex]
     obj:draw()
     menuClass:draw()
+    buttonClass.draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)

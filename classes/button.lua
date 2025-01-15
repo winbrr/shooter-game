@@ -15,14 +15,18 @@ do
     end
     
     function Button:constructor(text, x, y, width, height, font, callback)
-        self.text = text
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.font = font
-        self.callback = callback
-        buttons[id()] = self
+        if buttons[text] then
+            self.text = text
+            self.x = x
+            self.y = y
+            self.width = width
+            self.height = height
+            self.font = font
+            self.callback = callback
+            buttons[text] = self
+        else
+            return buttons[text] -- prevents overdraw
+        end
     end
 
     function Button.update()
@@ -38,7 +42,7 @@ do
 
     function Button.draw()
         for i, obj in pairs(buttons) do
-            love.graphics.setColor(0,0,0,0.3) -- grey transparent background
+            love.graphics.setColor(0,0,0,0.3) -- opaque black background
             love.graphics.rectangle("fill", obj.x, obj.y, obj.width, obj.height) -- button
             love.graphics.setColor(1,1,1,1) -- reset colour
             love.graphics.print(obj.text, obj.font, obj.x + 5 , obj.y + (obj.height / 8)) -- text

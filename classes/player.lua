@@ -19,7 +19,7 @@ do
         self.position = Vector2.zero
         self.health = health
         self.pickupRange = pickupRange
-        self.healthLimit = 100
+        self.healthLimit = upgrades[upgradesEnum.increaseHealth].default
         self.points = 0
         self.moveDirection = Vector2.zero
         self.ammoReserve = {
@@ -28,7 +28,7 @@ do
             heavy = 0,
             shotgun = 0
         }
-  
+        self.upgrades = {}
     end
 
     function Player:loadPlayer()
@@ -83,6 +83,15 @@ do
     function Player:checkHealth()
         if self.health < 0 then
             self.health = 0
+        end
+    end
+
+    function Player:upgrade(upgrade)
+        if upgrade == upgradesEnum.increaseHealth then
+            self.upgrades[upgrade] = (self.upgrades[upgrade] or 0) + 1 -- keeps track of how many times an upgrade is bought
+
+            self.healthLimit = upgrades[upgrade].value + (self.upgrades[upgrade] * 50)
+            self.health = self.healthLimit
         end
     end
 end

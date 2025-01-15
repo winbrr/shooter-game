@@ -16,6 +16,7 @@ do
         self.currentWave = 0
         self.baseEnemies = 3
         self.waveDelay = 3
+        self.buyMenuToggle = false
     end
 
     function waveManager:spawnWave()
@@ -44,6 +45,9 @@ do
 
     function waveManager:update(deltaTime)
         if table.getn(enemies) == 0 and t >= self.waveDelay then
+            if self.currentWave ~= 0 then -- wont activate when the game starts
+                self.buyMenuToggle = true
+            end
             self:startWave()
             t = 0
         elseif table.getn(enemies) == 0 then

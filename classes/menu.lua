@@ -15,20 +15,26 @@ do
     function Menu:constructor()
         self.active = false
         self.state = ""
+        self.buyMenuStrikes = 3
     end
 
     function Menu:load()
         self.active = false
         self.state = "" -- dont remove
+        self.buyMenuStrikes = 3
+        self.buyFrame = love.graphics.newImage("assets/sprites/hud/frame_buy_card.png")
     end
 
     function Menu:update()
         Menu:activatePause()
         Menu:activateGameOver()
+        Menu:activateBuyMenu()
+        Menu:updateBuyMenu()
     end
 
     function Menu:draw()
         Menu:drawGameOver()
+        Menu:drawBuyMenu()
     end
 
     function Menu:activatePause()
@@ -61,6 +67,33 @@ do
         self.state = ""
         for i, obj in pairs(buttons) do -- removes pause buttons
             buttons[i] = nil
+        end
+    end
+
+    function Menu:activateBuyMenu()
+        if waveManager.buyMenuToggle == true then
+            self.active = true
+            self.state = "buy"
+            buttonClass.new("Buy", 668, 900, 120, 50, fonts.menuFont, function() love.event.quit() end)
+            buttonClass.new("Skip", 1100, 900, 120, 50, fonts.menuFont, function() Menu:skipCard() end)
+        end
+    end
+
+    function Menu:skipCard()
+        self.buyMenuStrikes = self.buyMenuStrikes - 1
+    end
+
+    function Menu:drawBuyMenu()
+        if self.state == "buy" and self.active == true then
+            love.graphics.draw(self.buyFrame, 448, 28)
+        end
+    end
+    
+    function Menu:updateBuyMenu()
+        if self.buyMenuStrikes <= 0 then
+            self.state = ""
+            self.active = false
+            Menu:resume()
         end
     end
 end

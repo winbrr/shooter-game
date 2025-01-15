@@ -90,7 +90,7 @@ do
         if upgrade == upgradesEnum.increaseHealth then
             self.upgrades[upgrade] = (self.upgrades[upgrade] or 0) + 1 -- keeps track of how many times an upgrade is bought
 
-            self.healthLimit = upgrades[upgrade].value + (self.upgrades[upgrade] * 50)
+            self.healthLimit = upgrades[upgrade].default + (self.upgrades[upgrade] * 50)
             self.health = self.healthLimit
         end
     end

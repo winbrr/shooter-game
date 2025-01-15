@@ -31,11 +31,9 @@ do
         local t = love.timer.getTime()
         local mx, my = love.mouse.getPosition()
         for i, obj in pairs(buttons) do
-            if obj.visible and love.mouse.isDown(1) and (t - obj.t) > .1 then -- debounce
+            if obj.visible and love.mouse.isDown(1) and (t - obj.t) > .1 and obj:isHovering(mx, my) then -- debounce, checks if mouse over button
                 obj.t = t
-                if Button:isHovering(obj, mx, my) then -- checks if mouse is over button
-                    obj:callback() -- calls the buttons function
-                end
+                obj:callback() -- calls the button's function
             end
         end
     end
@@ -51,8 +49,8 @@ do
         end
     end
 
-    function Button:isHovering(button, x, y)
-        return x >= button.x and button.x <= (button.x + button.width) and y >= button.y and y <= (button.y + button.height) -- checks if there is positions overlap
+    function Button:isHovering(x, y)
+        return x >= self.x and x <= (self.x + self.width) and y >= self.y and y <= (self.y + self.height) -- checks if there is positions overlap
     end
 end
 

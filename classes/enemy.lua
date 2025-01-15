@@ -85,6 +85,7 @@ do
             if obj.position:distance(self.position) < self.size and obj.isFriendly == true then
                 self.health = self.health - obj.damage
                 projectiles[i] = nil
+                player.points = player.points + 10
             end
         end
     end
@@ -92,6 +93,7 @@ do
     function Enemy:checkHealth(index)
         if self.health <= 0 then
             self:dropLoot()
+            player.points = player.points + 50
             enemies[index] = nil
          end
     end
@@ -154,11 +156,13 @@ do
     end
 
     function Enemy.draw()
-        for _, obj in pairs(enemies) do
-            obj:healthBar()
-            local halfSize = obj.size / 2
-            local position =  camera:toScreen(obj.position)
-            love.graphics.rectangle("fill", position.x - halfSize, position.y - halfSize, obj.size, obj.size)
+        if menu.state ~= "buy" then
+            for _, obj in pairs(enemies) do
+                obj:healthBar()
+                local halfSize = obj.size / 2
+                local position =  camera:toScreen(obj.position)
+                love.graphics.rectangle("fill", position.x - halfSize, position.y - halfSize, obj.size, obj.size)
+            end
         end
     end
 end

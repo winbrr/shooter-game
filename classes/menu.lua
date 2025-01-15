@@ -16,12 +16,27 @@ do
         self.active = false
         self.state = ""
         self.buyMenuStrikes = 3
-        self.buyFrame = love.graphics.newImage("assets/sprites/hud/frame_buy_card.png")
+        self.buyFrame = love.graphics.newImage("assets/sprites/ui/frames/frame_buy_card.png")
+        self.tempIcon = love.graphics.newImage("assets/sprites/ui/icons/icon_temp.png")
         self.buttonResume = buttonClass.new("Resume", 20, 20, 200, 50, fonts.menuFont, function() self:resume() end)
         self.quitButton01 = buttonClass.new("Quit", 20, 90, 200, 50, fonts.menuFont, function() love.event.quit() end)
         self.quitButton02 = buttonClass.new("Quit", 10, 140, 120, 50, fonts.menuFont, function() love.event.quit() end)
-        self.buyButton = buttonClass.new("Buy", 668, 900, 120, 50, fonts.menuFont, function() love.event.quit() end)
+
+        self.buyButton = buttonClass.new("Buy", 668, 900, 120, 50, fonts.menuFont, function() 
+            local data = upgrades[self.currentUpgrade]
+            if player.points >= data.cost then
+                player:upgrade(self.currentUpgrade)
+                player.points = player.points - data.cost
+                self:pickCard()
+                self.active = false
+                self.state = ""
+                waveManager.buyMenuToggle = false
+                self:resume()
+            end
+        end)
+        
         self.skipButton = buttonClass.new("Skip", 1100, 900, 120, 50, fonts.menuFont, function() self:skipCard() end)
+        self:pickCard()
     end
 
     function Menu:update()
@@ -72,16 +87,17 @@ do
             self.state = "buy"
             self.buyButton.visible = true
             self.skipButton.visible = true
-            waveManager.buyMenuToggle = false
         end
     end
 
     function Menu:skipCard()
         self.buyMenuStrikes = self.buyMenuStrikes - 1
+        self:pickCard()
     end
 
     function Menu:drawBuyMenu()
         if self.state == "buy" and self.active == true then
+            local data = upgrades[self.currentUpgrade]
             love.graphics.draw(self.buyFrame, 448, 28)
         end
     end
@@ -90,8 +106,14 @@ do
         if self.buyMenuStrikes <= 0 then
             self.state = ""
             self.active = false
+            waveManager.buyMenuToggle = false
+            self.buyMenuStrikes = 3
             self:resume()
         end
+    end
+
+    function Menu:pickCard()
+        self.currentUpgrade = math.random(1, #upgrades)
     end
 end
 

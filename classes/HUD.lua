@@ -13,7 +13,7 @@ do
     end
     
     function HUD:constructor()
-        self.pointsFrame = love.graphics.newImage("assets/sprites/hud/frame_points.png")
+        self.pointsFrame = love.graphics.newImage("assets/sprites/ui/frames/frame_points.png")
     end
 
     function HUD:draw()

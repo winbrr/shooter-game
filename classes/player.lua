@@ -51,6 +51,7 @@ do
     function Player:update(deltaTime)
         self:detectCollisions()
         self:checkHealth()
+        self:updateUpgrades(deltaTime)
 
         local x, y = 0, 0
 
@@ -87,11 +88,20 @@ do
     end
 
     function Player:upgrade(upgrade)
+        self.upgrades[upgrade] = (self.upgrades[upgrade] or 0) + 1 -- keeps track of how many times an upgrade is bought
+        
         if upgrade == upgradesEnum.increaseHealth then
-            self.upgrades[upgrade] = (self.upgrades[upgrade] or 0) + 1 -- keeps track of how many times an upgrade is bought
-
             self.healthLimit = upgrades[upgrade].default + (self.upgrades[upgrade] * 50)
             self.health = self.healthLimit
+        end
+    end
+
+    function Player:updateUpgrades(deltaTime)
+        for upgrade, amount in pairs(self.upgrades) do
+            local data = upgrades[upgrade]
+            if upgrade == upgradesEnum.regenerateHealth then
+                self.health = math.min(self.healthLimit, self.health + (data.regenRate * amount * deltaTime))
+            end
         end
     end
 end

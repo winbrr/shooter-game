@@ -5,4 +5,5 @@ pointsFont = love.graphics.newFont("assets/fonts/Matrixtype Display Bold.ttf", 2
 healthFont = love.graphics.newFont("assets/fonts/Matrixtype Display Bold.ttf", 17),
 waveFont = love.graphics.newFont("assets/fonts/DP Comic.ttf", 150),
 menuFont = love.graphics.newFont("assets/fonts/Matrixtype Display Bold.ttf", 40),
-menuFontLarge = love.graphics.newFont("assets/fonts/Matrixtype Display Bold.ttf", 80)}
+menuFontLarge = love.graphics.newFont("assets/fonts/Matrixtype Display Bold.ttf", 80),
+menuFontMed = love.graphics.newFont("assets/fonts/Matrixtype Display Bold.ttf", 60)}

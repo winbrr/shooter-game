@@ -17,7 +17,6 @@ do
         self.state = ""
         self.buyMenuStrikes = 3
         self.buyFrame = love.graphics.newImage("assets/sprites/ui/frames/frame_buy_card.png")
-        self.tempIcon = love.graphics.newImage("assets/sprites/ui/icons/icon_temp.png")
         self.buttonResume = buttonClass.new("Resume", 20, 20, 200, 50, fonts.menuFont, function() self:resume() end)
         self.quitButton01 = buttonClass.new("Quit", 20, 90, 200, 50, fonts.menuFont, function() love.event.quit() end)
         self.quitButton02 = buttonClass.new("Quit", 10, 140, 120, 50, fonts.menuFont, function() love.event.quit() end)
@@ -99,6 +98,11 @@ do
         if self.state == "buy" and self.active == true then
             local data = upgrades[self.currentUpgrade]
             love.graphics.draw(self.buyFrame, 448, 28)
+            love.graphics.print(data.name, fonts.menuFontMed, 684, 160)
+            love.graphics.print("Cards remaining: "..self.buyMenuStrikes, fonts.menuFont, 10, 10)
+            love.graphics.printf(data.description, fonts.menuFont, 684, 240, 550)
+            love.graphics.printf("Price: $" .. data.cost, fonts.menuFont, 684, 350, 550)
+            love.graphics.draw(data.icon, 704, 410)
         end
     end
     

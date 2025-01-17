@@ -64,7 +64,7 @@ do
         local value = math.random(10, 30)
        
         if chance < self.dropChance then
-            if typeChance < 0.5 then
+            if typeChance < 0.75 then
                 pickupClass.new(value, "ammo", self.position.x, self.position.y)
             else
                 pickupClass.new(value, "health", self.position.x, self.position.y)

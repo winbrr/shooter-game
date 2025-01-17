@@ -21,7 +21,7 @@ do
         self.quitButton01 = buttonClass.new("Quit", 20, 90, 200, 50, fonts.menuFont, function() love.event.quit() end)
         self.quitButton02 = buttonClass.new("Quit", 10, 140, 120, 50, fonts.menuFont, function() love.event.quit() end)
 
-        self.buyButton = buttonClass.new("Buy", 668, 900, 120, 50, fonts.menuFont, function() 
+        self.buyButton = buttonClass.new("Buy", (windowWidth / 2) - 256, 900, 120, 50, fonts.menuFont, function() 
             local data = upgrades[self.currentUpgrade]
             if player.points >= data.cost then
                 player:upgrade(self.currentUpgrade)
@@ -30,11 +30,12 @@ do
                 self.active = false
                 self.state = ""
                 waveManager.buyMenuToggle = false
+                self.buyMenuStrikes = 3
                 self:resume()
             end
         end)
         
-        self.skipButton = buttonClass.new("Skip", 1100, 900, 120, 50, fonts.menuFont, function() self:skipCard() end)
+        self.skipButton = buttonClass.new("Skip", (windowWidth / 2) + 136, 900, 120, 50, fonts.menuFont, function() self:skipCard() end)
         self:pickCard()
     end
 
@@ -97,12 +98,12 @@ do
     function Menu:drawBuyMenu()
         if self.state == "buy" and self.active == true then
             local data = upgrades[self.currentUpgrade]
-            love.graphics.draw(self.buyFrame, 448, 28)
-            love.graphics.print(data.name, fonts.menuFontMed, 684, 160)
+            love.graphics.draw(self.buyFrame, (windowWidth / 2) - 512, 28)
+            love.graphics.print(data.name, fonts.menuFontMed, (windowWidth / 2) - 256, 160)
             love.graphics.print("Cards remaining: "..self.buyMenuStrikes, fonts.menuFont, 10, 10)
-            love.graphics.printf(data.description, fonts.menuFont, 684, 240, 550)
-            love.graphics.printf("Price: $" .. data.cost, fonts.menuFont, 684, 350, 550)
-            love.graphics.draw(data.icon, 704, 410)
+            love.graphics.printf(data.description, fonts.menuFont, (windowWidth / 2) - 256, 240, 550)
+            love.graphics.printf("Price: $" .. data.cost, fonts.menuFont, (windowWidth / 2) - 256, 350, 550)
+            love.graphics.draw(data.icon, (windowWidth / 2) - 256, 410)
         end
     end
     

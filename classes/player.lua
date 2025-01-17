@@ -24,9 +24,10 @@ do
         self.moveDirection = Vector2.zero
         self.ammoReserve = {
             light = 10,
-            medium = 999999,
+            medium = 30,
             heavy = 0,
-            shotgun = 0
+            shotgun = 0,
+            special = math.huge
         }
         self.upgrades = {}
     end
@@ -92,7 +93,14 @@ do
         
         if upgrade == upgradesEnum.increaseHealth then
             self.healthLimit = upgrades[upgrade].default + (self.upgrades[upgrade] * 50)
-            self.health = self.healthLimit
+        
+        elseif upgrade == upgradesEnum.addAmmo then
+            for ammoType in pairs(player.ammoReserve) do
+                player.ammoReserve[ammoType] = player.ammoReserve[ammoType] + upgrades[upgrade].value
+            end
+
+        elseif upgrade == upgradesEnum.addHealth then
+            player.health = player.healthLimit
         end
     end
 
@@ -101,6 +109,8 @@ do
             local data = upgrades[upgrade]
             if upgrade == upgradesEnum.regenerateHealth then
                 self.health = math.min(self.healthLimit, self.health + (data.regenRate * amount * deltaTime))
+            elseif upgrade == upgradesEnum.regenerateMediumAmmo then
+                self.ammoReserve["light"] = math.min(999, self.ammoReserve["medium"] + (data.regenRate * amount * deltaTime))
             end
         end
     end

@@ -33,8 +33,11 @@ do
 
     function HUD:drawAmmo()
         local currentWeapon = inventory[weaponIndex]
-        local ammo = player.ammoReserve[currentWeapon.ammoType]
-        love.graphics.print(currentWeapon.name .. "|" .. ammo , fonts.ammoFont, windowWidth - 250, windowHeight - 75)
+        if player.ammoReserve[currentWeapon.ammoType] == "special" then
+            love.graphics.print(currentWeapon.name .. "| inf", fonts.ammoFont, windowWidth - 250, windowHeight - 75)
+        else
+            love.graphics.print(currentWeapon.name .. "|" .. math.ceil(player.ammoReserve[currentWeapon.ammoType]) , fonts.ammoFont, windowWidth - 250, windowHeight - 75)
+        end
     end
 
     function HUD:drawWave()

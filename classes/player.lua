@@ -83,8 +83,8 @@ do
     end
 
     function Player:checkHealth()
-        if self.health < 0 then
-            self.health = 0
+        if self.health < 1 then
+            self.health = -1
         end
     end
 
@@ -109,7 +109,8 @@ do
             local data = upgrades[upgrade]
             if upgrade == upgradesEnum.regenerateHealth then
                 self.health = math.min(self.healthLimit, self.health + (data.regenRate * amount * deltaTime))
-            elseif upgrade == upgradesEnum.regenerateMediumAmmo then
+            end
+            if upgrade == upgradesEnum.regenerateMediumAmmo then
                 self.ammoReserve["light"] = math.min(999, self.ammoReserve["medium"] + (data.regenRate * amount * deltaTime))
             end
         end

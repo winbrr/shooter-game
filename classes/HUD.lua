@@ -52,7 +52,7 @@ do
         love.graphics.setColor(1,1,1,1)
         love.graphics.rectangle("fill", 27, windowHeight - 198, 246 * (1 / player.healthLimit)* player.health,14) --white health bar
         love.graphics.setColor(1,1,1) --reset colour
-        love.graphics.print(math.floor(player.health), fonts.healthFont, 275, windowHeight - 200)
+        love.graphics.print(math.ceil(player.health), fonts.healthFont, 275, windowHeight - 200)
     end
 end
 

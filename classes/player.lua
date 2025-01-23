@@ -111,7 +111,7 @@ do
                 self.health = math.min(self.healthLimit, self.health + (data.regenRate * amount * deltaTime))
             end
             if upgrade == upgradesEnum.regenerateMediumAmmo then
-                self.ammoReserve["light"] = math.min(999, self.ammoReserve["medium"] + (data.regenRate * amount * deltaTime))
+                self.ammoReserve["medium"] = math.min(999, self.ammoReserve["medium"] + (data.regenRate * amount * deltaTime))
             end
         end
     end

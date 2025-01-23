@@ -24,7 +24,7 @@ upgrades = {
     [upgradesEnum.regenerateHealth] = {
         name = "Healing Aura",
         description = "Provides passive health regeneration",
-        cost = 31,
+        cost = 3000,
         regenRate = 0.5,
         icon = defaultIcon
     },

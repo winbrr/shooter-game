@@ -13,30 +13,33 @@ do
     end
     
     function Menu:constructor()
-        self.active = false
-        self.state = ""
-        self.buyMenuStrikes = 3
-        self.buyFrame = love.graphics.newImage("assets/sprites/ui/frames/frame_buy_card.png")
+        self.active = false -- Menu is initially inactive
+        self.state = "" -- Initial state of the menu
+        self.buyMenuStrikes = 3 -- Number of strikes allowed in the buy menu
+        self.buyFrame = love.graphics.newImage("assets/sprites/ui/frames/frame_buy_card.png") -- Image for the buy frame
+    
+        -- Create buttons for the menu
         self.buttonResume = buttonClass.new("Resume", 20, 20, 200, 50, fonts.menuFont, function() self:resume() end)
         self.quitButton01 = buttonClass.new("Quit", 20, 90, 200, 50, fonts.menuFont, function() love.event.quit() end)
         self.quitButton02 = buttonClass.new("Quit", 10, 140, 120, 50, fonts.menuFont, function() love.event.quit() end)
-
+    
+        -- Create buy button with functionality to purchase upgrades
         self.buyButton = buttonClass.new("Buy", (windowWidth / 2) - 256, 900, 120, 50, fonts.menuFont, function() 
             local data = upgrades[self.currentUpgrade]
             if player.points >= data.cost then
-                player:upgrade(self.currentUpgrade)
-                player.points = player.points - data.cost
-                self:pickCard()
-                self.active = false
-                self.state = ""
-                waveManager.buyMenuToggle = false
-                self.buyMenuStrikes = 3
-                self:resume()
+                player:upgrade(self.currentUpgrade) -- Upgrade the player
+                player.points = player.points - data.cost -- Deduct points
+                self:pickCard() -- Pick a new card
+                self.active = false -- Deactivate menu
+                self.state = "" -- Reset state
+                waveManager.buyMenuToggle = false -- Toggle buy menu off
+                self.buyMenuStrikes = 3 -- Reset strikes
+                self:resume() -- Resume the game
             end
         end)
-        
+        -- Create skip button with functionality to skip the current card
         self.skipButton = buttonClass.new("Skip", (windowWidth / 2) + 136, 900, 120, 50, fonts.menuFont, function() self:skipCard() end)
-        self:pickCard()
+        self:pickCard() -- Pick the initial card
     end
 
     function Menu:update()
@@ -58,15 +61,15 @@ do
         end
     end
 
-    function Menu:activateGameOver()
+    function Menu:activateGameOver() -- runs if the player's health is 0
         if player.health <= 0 then
-            self.active = true
+            self.active = true -- activates the game over menu
             self.state = "gameover"
-            self.quitButton02.visible = true
+            self.quitButton02.visible = true -- shows the quit button
         end  
     end
 
-    function Menu:drawGameOver()
+    function Menu:drawGameOver() -- draws the game over menu
         if self.state == "gameover" and self.active == true then
             love.graphics.print("Game Over!", fonts.menuFontLarge, 10, 10)
             love.graphics.print("You survived " .. waveManager.currentWave .. " rounds", fonts.menuFont, 10, 90)
@@ -81,12 +84,12 @@ do
         end
     end
 
-    function Menu:activateBuyMenu()
+    function Menu:activateBuyMenu() -- activates the buy menu
         if waveManager.buyMenuToggle == true then
             self.active = true
             self.state = "buy"
             self.buyButton.visible = true
-            self.skipButton.visible = true
+            self.skipButton.visible = true -- shows the buy and skip buttons
         end
     end
 
@@ -108,7 +111,7 @@ do
     end
     
     function Menu:updateBuyMenu()
-        if self.buyMenuStrikes <= 0 then
+        if self.buyMenuStrikes <= 0 then -- runs if the player has no strikes left
             self.state = ""
             self.active = false
             waveManager.buyMenuToggle = false
@@ -118,7 +121,7 @@ do
     end
 
     function Menu:pickCard()
-        self.currentUpgrade = math.random(1, #upgrades)
+        self.currentUpgrade = math.random(1, #upgrades) -- picks a random card
     end
 end
 

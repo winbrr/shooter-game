@@ -22,7 +22,7 @@ do
         self.healthLimit = upgrades[upgradesEnum.increaseHealth].default
         self.points = 0
         self.moveDirection = Vector2.zero
-        self.ammoReserve = {
+        self.ammoReserve = { 
             light = 10,
             medium = 30,
             heavy = 0,
@@ -32,30 +32,30 @@ do
         self.upgrades = {}
     end
 
-    function Player:loadPlayer()
-    
-    end
-
+    -- Function to calculate the distance from the player to another object
     function Player:distanceFrom(obj)
         return self.position:distance(obj.position)
     end
 
+    -- Function to detect collisions with projectiles
     function Player:detectCollisions()
         for i, obj in pairs(projectiles) do
             if self:distanceFrom(obj) < self.size and obj.isFriendly == false then
-                self.health = self.health - obj.damage
-                projectiles[i] = nil
+                self.health = self.health - obj.damage -- Reduce health by projectile damage
+                projectiles[i] = nil -- Remove the projectile
             end
         end
     end
 
+    -- Update function to handle player behavior
     function Player:update(deltaTime)
-        self:detectCollisions()
-        self:checkHealth()
-        self:updateUpgrades(deltaTime)
+        self:detectCollisions() -- Detect collisions with projectiles
+        self:checkHealth() -- Check health status
+        self:updateUpgrades(deltaTime) -- Update upgrades
 
         local x, y = 0, 0
 
+        -- Handle player movement input
         if love.keyboard.isDown("d") then
             x = -1
         elseif love.keyboard.isDown("a") then
@@ -68,50 +68,52 @@ do
             y = -1
         end
 
-        local vector = Vector2.new(x,y)
-
+        local vector = Vector2.new(x, y)
         vector = vector:unit():mul(self.speed * deltaTime)
-
         self.position = self.position:add(vector)
-        self.moveDirection = Vector2.new(x,y):unit():mul(self.speed)
+        self.moveDirection = Vector2.new(x, y):unit():mul(self.speed) -- Update the player's movement direction
     end
 
+    -- Draw function to render the player
     function Player:draw()
         local halfSize = self.size / 2
         local position = camera:toScreen(self.position)
-        love.graphics.rectangle("fill", position.x - halfSize, position.y - halfSize, self.size, self.size)
+        love.graphics.rectangle("fill", position.x - halfSize, position.y - halfSize, self.size, self.size) -- Draw the player
     end
 
+    -- Function to check the player's health
     function Player:checkHealth()
         if self.health < 1 then
-            self.health = -1
+            self.health = -1 -- Set health to -1 if it drops below 1
         end
     end
 
+    -- Function to upgrade the player
     function Player:upgrade(upgrade)
-        self.upgrades[upgrade] = (self.upgrades[upgrade] or 0) + 1 -- keeps track of how many times an upgrade is bought
+        self.upgrades[upgrade] = (self.upgrades[upgrade] or 0) + 1 -- Track the number of times an upgrade is bought
         
         if upgrade == upgradesEnum.increaseHealth then
-            self.healthLimit = upgrades[upgrade].default + (self.upgrades[upgrade] * 50)
+            self.healthLimit = upgrades[upgrade].default + (self.upgrades[upgrade] * 50) -- Increase health limit
         
         elseif upgrade == upgradesEnum.addAmmo then
             for ammoType in pairs(player.ammoReserve) do
-                player.ammoReserve[ammoType] = player.ammoReserve[ammoType] + upgrades[upgrade].value
+                player.ammoReserve[ammoType] = player.ammoReserve[ammoType] + upgrades[upgrade].value -- Add ammo to reserve
             end
 
         elseif upgrade == upgradesEnum.addHealth then
-            player.health = player.healthLimit
+            player.health = player.healthLimit -- Restore health to the limit
         end
     end
 
+    -- Function to update player upgrades over time
     function Player:updateUpgrades(deltaTime)
         for upgrade, amount in pairs(self.upgrades) do
             local data = upgrades[upgrade]
             if upgrade == upgradesEnum.regenerateHealth then
-                self.health = math.min(self.healthLimit, self.health + (data.regenRate * amount * deltaTime))
+                self.health = math.min(self.healthLimit, self.health + (data.regenRate * amount * deltaTime)) -- Regenerate health
             end
             if upgrade == upgradesEnum.regenerateMediumAmmo then
-                self.ammoReserve["medium"] = math.min(999, self.ammoReserve["medium"] + (data.regenRate * amount * deltaTime))
+                self.ammoReserve["medium"] = math.min(999, self.ammoReserve["medium"] + (data.regenRate * amount * deltaTime)) -- Regenerate medium ammo
             end
         end
     end

@@ -1,4 +1,4 @@
--- classes
+-- Load required classes and utilities
 Vector2 = require("classes/vector2")
 projectileClass = require("classes/projectile")
 pickupClass = require("classes/pickup")
@@ -15,7 +15,7 @@ local weaponClass = require("classes/weapon")
 local cameraClass = require("classes/camera")
 menuClass = require("classes/menu")
 
-
+-- Initialize game variables
 windowWidth, windowHeight = love.graphics.getDimensions()
 player = playerClass.new(50, 600, 100, 40)
 local defaultWeapon = weaponClass.new("Pistol", 0.2, 10, 1, 1500, "assets/sprites/weapons/G19.png", "special", 25)
@@ -27,18 +27,7 @@ hud = HUDclass.new()
 inventory = {defaultWeapon, defaultWeapon2}
 weaponIndex = 1
 
--- local function drawReference()
---     local rx, ry = camera:toScreen(0,0)
---     love.graphics.setColor(1, 0, 0)
---     love.graphics.circle("fill", rx, ry, 3)
---     love.graphics.setColor(1, 1, 1)
-
---     love.graphics.setColor(0, 1, 0)
---     local Rx, Ry =  camera:toScreen(camera:toWorld(64, 64))
---     love.graphics.circle("fill", Rx, Ry, 3)
---     love.graphics.setColor(1, 1, 1)
---   end
-
+-- Function to get the number of elements in a table
 function table.getn(t)
     local n = 0
     for _, _ in pairs(t) do
@@ -47,17 +36,19 @@ function table.getn(t)
     return n
 end
 
+
 function love.load()
     love._openConsole()
     love.graphics.setBackgroundColor(0.024, 0.029, 0.046)
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
-    for i, obj in ipairs(inventory) do
+    for i, obj in ipairs(inventory) do -- Load all weapons
         obj:load()
     end
 end
 
+
 function love.update(deltaTime)
-    if menu.active == false then
+    if menu.active == false then -- Update game elements if the menu is not active
         weaponClass.update(deltaTime, inventory)
         camera:update(deltaTime)
         waveManager:update(deltaTime)
@@ -67,17 +58,18 @@ function love.update(deltaTime)
     menu:update()
 end
 
+
 function love.draw(deltaTime)
     camera:draw()
-    -- drawReference()
-    local obj = inventory[weaponIndex]
+    local obj = inventory[weaponIndex] -- Get the current weapon
     obj:draw()
     menu:draw()
     buttonClass.draw()
 end
 
+-- Key pressed function to handle input
 function love.keypressed(key, scancode, isrepeat)
-    if key == "escape" and menu.state == "" then
+    if key == "escape" and menu.state == "" then -- Pause the game
         menu.active = true
         menu.state = "pause"
     end
@@ -89,6 +81,7 @@ function love.keypressed(key, scancode, isrepeat)
     end
 end
 
+-- Resize function to handle window resizing
 function love.resize(w, h)
     windowWidth, windowHeight = w, h
 end
